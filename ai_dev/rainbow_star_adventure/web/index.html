@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Rainbow Star Adventure</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            background-color: #ffb6c1;
+        }
+        .game-info {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: black;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .game-buttons {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+        button {
+            padding: 8px 16px;
+            margin: 0 5px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .pause-btn {
+            background-color: #0000ff;
+            color: white;
+        }
+        .restart-btn {
+            background-color: #008000;
+            color: white;
+        }
+        .quit-btn {
+            background-color: #ff0000;
+            color: white;
+        }
+        .start-screen, .pause-screen, .game-over-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 18px;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <div class="game-info">
+        <div id="score">Score: 0</div>
+        <div id="time">Time: 60</div>
+    </div>
+    <div class="game-buttons">
+        <button class="pause-btn" onclick="togglePause()">Pause</button>
+        <button class="restart-btn" onclick="restartGame()">Restart</button>
+        <button class="quit-btn" onclick="quitGame()">Quit</button>
+    </div>
+    
+    <div class="start-screen" id="startScreen">
+        <h1>Rainbow Star Adventure</h1>
+        <p>Tap anywhere to start</p>
+        <p>Use arrow keys or swipe to move</p>
+        <p>Collect stars, avoid obstacles</p>
+    </div>
+    
+    <div class="pause-screen" id="pauseScreen" style="display: none;">
+        <h1>Game Paused</h1>
+        <p>Tap anywhere to continue</p>
+    </div>
+    
+    <div class="game-over-screen" id="gameOverScreen" style="display: none;">
+        <h1>Game Over!</h1>
+        <h2 id="finalScore">Final Score: 0</h2>
+        <p>Tap anywhere to restart</p>
+    </div>
+
+    <script>
+        // Game variables
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const startScreen = document.getElementById('startScreen');
+        const pauseScreen = document.getElementById('pauseScreen');
+        const gameOverScreen = document.getElementById('gameOverScreen');
+        const scoreElement = document.getElementById('score');
+        const timeElement = document.getElementById('time');
+        const finalScoreElement = document.getElementById('finalScore');
+        
+        let WIDTH = 800;
+        let HEIGHT = 600;
+        let score = 0;
+        let timeLeft = 60;
+        let gameOver = false;
+        let gamePaused = false;
+        let gameStarted = false;
+        let animationId = null;
+        
+        // Player settings
+        const player = {
+            x: WIDTH / 2,
+            y: HEIGHT / 2,
+            speed: 5,
+            color: '#ffd700', // Gold
+            mouthPhase: 0
+        };
+        
+        // Star settings
+        const stars = [];
+        const starCount = 10;
+        
+        // Obstacle settings
+        const obstacles = [];
+        const obstacleCount = 5;
+        
+        // Color settings
+        const BACKGROUND_COLORS = ['#ffb6c1', '#add8e6', '#90ee90', '#ffffb6', '#dda0dd'];
+        let currentBgColor = 0;
+        
+        // Touch controls
+        let touchStartX = 0;
+        let touchStartY = 0;
+        
+        // Initialize game
+        function initGame() {
+            score = 0;
+            timeLeft = 60;
+            gameOver = false;
+            gamePaused = false;
+            gameStarted = false;
+            
+            // Reset player
+            player.x = WIDTH / 2;
+            player.y = HEIGHT / 2;
+            player.mouthPhase = 0;
+            
+            // Reset stars
+            stars.length = 0;
+            for (let i = 0; i < starCount; i++) {
+                stars.push({
+                    x: 50 + Math.random() * (WIDTH - 100),
+                    y: 50 + Math.random() * (HEIGHT - 100),
+                    color: `rgb(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)})`
+                });
+            }
+            
+            // Reset obstacles
+            obstacles.length = 0;
+            for (let i = 0; i < obstacleCount; i++) {
+                obstacles.push({
+                    x: 50 + Math.random() * (WIDTH - 100),
+                    y: 50 + Math.random() * (HEIGHT - 100),
+                    speedX: Math.random() > 0.5 ? 2 : -2,
+                    speedY: Math.random() > 0.5 ? 2 : -2,
+                    color: '#663399' // Dark purple
+                });
+            }
+            
+            // Update display
+            updateDisplay();
+        }
+        
+        // Update display
+        function updateDisplay() {
+            scoreElement.textContent = `Score: ${score}`;
+            timeElement.textContent = `Time: ${Math.floor(timeLeft)}`;
+            finalScoreElement.textContent = `Final Score: ${score}`;
+        }
+        
+        // Draw game
+        function draw() {
+            // Clear canvas
+            ctx.fillStyle = BACKGROUND_COLORS[currentBgColor];
+            ctx.fillRect(0, 0, WIDTH, HEIGHT);
+            
+            // Draw player
+            drawPlayer();
+            
+            // Draw stars
+            drawStars();
+            
+            // Draw obstacles
+            drawObstacles();
+        }
+        
+        // Draw player
+        function drawPlayer() {
+            // Draw body
+            ctx.beginPath();
+            ctx.arc(player.x, player.y, 30, 0, Math.PI * 2);
+            ctx.fillStyle = player.color;
+            ctx.fill();
+            
+            // Draw eyes
+            ctx.beginPath();
+            ctx.arc(player.x - 10, player.y - 10, 5, 0, Math.PI * 2);
+            ctx.fillStyle = '#ffffff';
+            ctx.fill();
+            
+            ctx.beginPath();
+            ctx.arc(player.x + 10, player.y - 10, 5, 0, Math.PI * 2);
+            ctx.fillStyle = '#ffffff';
+            ctx.fill();
+            
+            ctx.beginPath();
+            ctx.arc(player.x - 10, player.y - 10, 2, 0, Math.PI * 2);
+            ctx.fillStyle = '#000000';
+            ctx.fill();
+            
+            ctx.beginPath();
+            ctx.arc(player.x + 10, player.y - 10, 2, 0, Math.PI * 2);
+            ctx.fillStyle = '#000000';
+            ctx.fill();
+            
+            // Draw animated mouth (more realistic human-like mouth)
+            const mouthOpenness = Math.abs(Math.sin(player.mouthPhase)) * 18;
+            const mouthWidth = 28;
+            const mouthCenter = player.y + 8;
+            
+            // Draw upper lip
+            ctx.beginPath();
+            ctx.arc(player.x, mouthCenter - mouthOpenness / 2, mouthWidth / 2, Math.PI, 0);
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            
+            // Draw lower lip
+            ctx.beginPath();
+            ctx.arc(player.x, mouthCenter + mouthOpenness / 2, mouthWidth / 2, 0, Math.PI);
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            
+            // Connect the ends
+            ctx.beginPath();
+            ctx.moveTo(player.x - mouthWidth / 2, mouthCenter - mouthOpenness);
+            ctx.lineTo(player.x - mouthWidth / 2, mouthCenter);
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            
+            ctx.beginPath();
+            ctx.moveTo(player.x + mouthWidth / 2, mouthCenter - mouthOpenness);
+            ctx.lineTo(player.x + mouthWidth / 2, mouthCenter);
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+        
+        // Draw stars
+        function drawStars() {
+            stars.forEach(star => {
+                const size = 20;
+                const outerPoints = [];
+                const innerPoints = [];
+                
+                // Calculate outer points
+                for (let i = 0; i < 5; i++) {
+                    const angle = i * 72 - 90;
+                    const x = star.x + size * Math.cos(angle * Math.PI / 180);
+                    const y = star.y + size * Math.sin(angle * Math.PI / 180);
+                    outerPoints.push({x, y});
+                }
+                
+                // Calculate inner points
+                const innerSize = size * 0.382; // Golden ratio
+                for (let i = 0; i < 5; i++) {
+                    const angle = (i * 72 + 36) - 90;
+                    const x = star.x + innerSize * Math.cos(angle * Math.PI / 180);
+                    const y = star.y + innerSize * Math.sin(angle * Math.PI / 180);
+                    innerPoints.push({x, y});
+                }
+                
+                // Build star points
+                const starPoints = [];
+                for (let i = 0; i < 5; i++) {
+                    starPoints.push(outerPoints[i]);
+                    starPoints.push(innerPoints[i]);
+                }
+                
+                // Fill star
+                ctx.beginPath();
+                ctx.moveTo(starPoints[0].x, starPoints[0].y);
+                for (let i = 1; i < starPoints.length; i++) {
+                    ctx.lineTo(starPoints[i].x, starPoints[i].y);
+                }
+                ctx.closePath();
+                ctx.fillStyle = star.color;
+                ctx.fill();
+                
+                // Draw star border
+                ctx.beginPath();
+                ctx.moveTo(starPoints[0].x, starPoints[0].y);
+                for (let i = 1; i < starPoints.length; i++) {
+                    ctx.lineTo(starPoints[i].x, starPoints[i].y);
+                }
+                ctx.closePath();
+                ctx.strokeStyle = '#000000';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            });
+        }
+        
+        // Draw obstacles
+        function drawObstacles() {
+            obstacles.forEach(obstacle => {
+                // Draw body
+                ctx.beginPath();
+                ctx.arc(obstacle.x, obstacle.y, 20, 0, Math.PI * 2);
+                ctx.fillStyle = obstacle.color;
+                ctx.fill();
+                
+                // Draw eyes
+                ctx.beginPath();
+                ctx.arc(obstacle.x - 8, obstacle.y - 8, 4, 0, Math.PI * 2);
+                ctx.fillStyle = '#ffffff';
+                ctx.fill();
+                
+                ctx.beginPath();
+                ctx.arc(obstacle.x + 8, obstacle.y - 8, 4, 0, Math.PI * 2);
+                ctx.fillStyle = '#ffffff';
+                ctx.fill();
+                
+                ctx.beginPath();
+                ctx.arc(obstacle.x - 8, obstacle.y - 8, 2, 0, Math.PI * 2);
+                ctx.fillStyle = '#ff0000';
+                ctx.fill();
+                
+                ctx.beginPath();
+                ctx.arc(obstacle.x + 8, obstacle.y - 8, 2, 0, Math.PI * 2);
+                ctx.fillStyle = '#ff0000';
+                ctx.fill();
+                
+                // Draw evil mouth
+                ctx.beginPath();
+                ctx.moveTo(obstacle.x - 12, obstacle.y + 5);
+                ctx.lineTo(obstacle.x + 12, obstacle.y + 5);
+                ctx.strokeStyle = '#ff0000';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            });
+        }
+        
+        // Update game state
+        function update() {
+            if (!gameStarted || gamePaused || gameOver) {
+                return;
+            }
+            
+            // Animate player's mouth
+            player.mouthPhase += 0.1;
+            if (player.mouthPhase > Math.PI * 2) {
+                player.mouthPhase = 0;
+            }
+            
+            // Move player
+            if (keys.left && player.x > 0) {
+                player.x -= player.speed;
+            }
+            if (keys.right && player.x < WIDTH) {
+                player.x += player.speed;
+            }
+            if (keys.up && player.y > 0) {
+                player.y -= player.speed;
+            }
+            if (keys.down && player.y < HEIGHT) {
+                player.y += player.speed;
+            }
+            
+            // Move obstacles
+            obstacles.forEach(obstacle => {
+                obstacle.x += obstacle.speedX;
+                obstacle.y += obstacle.speedY;
+                
+                // Boundary detection
+                if (obstacle.x < 0 || obstacle.x > WIDTH) {
+                    obstacle.speedX *= -1;
+                }
+                if (obstacle.y < 0 || obstacle.y > HEIGHT) {
+                    obstacle.speedY *= -1;
+                }
+            });
+            
+            // Detect star collision
+            for (let i = stars.length - 1; i >= 0; i--) {
+                const star = stars[i];
+                const distance = Math.sqrt(
+                    Math.pow(player.x - star.x, 2) + Math.pow(player.y - star.y, 2)
+                );
+                if (distance < 45) { // Player radius 30 + star radius 15
+                    stars.splice(i, 1);
+                    score++;
+                    
+                    // Add new star
+                    stars.push({
+                        x: 50 + Math.random() * (WIDTH - 100),
+                        y: 50 + Math.random() * (HEIGHT - 100),
+                        color: `rgb(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)})`
+                    });
+                    
+                    // Randomly change background color
+                    currentBgColor = Math.floor(Math.random() * BACKGROUND_COLORS.length);
+                    
+                    // Update display
+                    updateDisplay();
+                }
+            }
+            
+            // Detect obstacle collision
+            obstacles.forEach(obstacle => {
+                const distance = Math.sqrt(
+                    Math.pow(player.x - obstacle.x, 2) + Math.pow(player.y - obstacle.y, 2)
+                );
+                if (distance < 50) { // Player radius 30 + obstacle radius 20
+                    gameOver = true;
+                    gameOverScreen.style.display = 'flex';
+                    updateDisplay();
+                }
+            });
+            
+            // Countdown
+            timeLeft -= 0.01;
+            if (timeLeft <= 0) {
+                timeLeft = 0;
+                gameOver = true;
+                gameOverScreen.style.display = 'flex';
+                updateDisplay();
+            } else {
+                updateDisplay();
+            }
+        }
+        
+        // Game loop
+        function gameLoop() {
+            update();
+            draw();
+            animationId = requestAnimationFrame(gameLoop);
+        }
+        
+        // Keyboard controls
+        const keys = {
+            left: false,
+            right: false,
+            up: false,
+            down: false
+        };
+        
+        document.addEventListener('keydown', (e) => {
+            switch (e.key) {
+                case 'ArrowLeft':
+                    keys.left = true;
+                    break;
+                case 'ArrowRight':
+                    keys.right = true;
+                    break;
+                case 'ArrowUp':
+                    keys.up = true;
+                    break;
+                case 'ArrowDown':
+                    keys.down = true;
+                    break;
+                case ' ': // Spacebar
+                    if (!gameStarted) {
+                        startGame();
+                    } else if (!gameOver) {
+                        togglePause();
+                    } else {
+                        restartGame();
+                    }
+                    break;
+            }
+        });
+        
+        document.addEventListener('keyup', (e) => {
+            switch (e.key) {
+                case 'ArrowLeft':
+                    keys.left = false;
+                    break;
+                case 'ArrowRight':
+                    keys.right = false;
+                    break;
+                case 'ArrowUp':
+                    keys.up = false;
+                    break;
+                case 'ArrowDown':
+                    keys.down = false;
+                    break;
+            }
+        });
+        
+        // Touch controls
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            touchStartX = touch.clientX;
+            touchStartY = touch.clientY;
+        });
+        
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            if (!gameStarted || gamePaused || gameOver) {
+                return;
+            }
+            const touch = e.touches[0];
+            const touchX = touch.clientX;
+            const touchY = touch.clientY;
+            const deltaX = touchX - touchStartX;
+            const deltaY = touchY - touchStartY;
+            
+            if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                // Horizontal movement
+                if (deltaX > 20) {
+                    keys.right = true;
+                    keys.left = false;
+                } else if (deltaX < -20) {
+                    keys.left = true;
+                    keys.right = false;
+                } else {
+                    keys.left = false;
+                    keys.right = false;
+                }
+            } else {
+                // Vertical movement
+                if (deltaY > 20) {
+                    keys.down = true;
+                    keys.up = false;
+                } else if (deltaY < -20) {
+                    keys.up = true;
+                    keys.down = false;
+                } else {
+                    keys.up = false;
+                    keys.down = false;
+                }
+            }
+        });
+        
+        canvas.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            keys.left = false;
+            keys.right = false;
+            keys.up = false;
+            keys.down = false;
+        });
+        
+        // Mouse/touch screen taps
+        document.addEventListener('click', (e) => {
+            if (!gameStarted) {
+                startGame();
+            } else if (gamePaused) {
+                togglePause();
+            } else if (gameOver) {
+                restartGame();
+            }
+        });
+        
+        // Start game
+        function startGame() {
+            gameStarted = true;
+            startScreen.style.display = 'none';
+            if (!animationId) {
+                gameLoop();
+            }
+        }
+        
+        // Toggle pause
+        function togglePause() {
+            gamePaused = !gamePaused;
+            pauseScreen.style.display = gamePaused ? 'flex' : 'none';
+        }
+        
+        // Restart game
+        function restartGame() {
+            gameOverScreen.style.display = 'none';
+            initGame();
+            gameStarted = true;
+            if (!animationId) {
+                gameLoop();
+            }
+        }
+        
+        // Quit game
+        function quitGame() {
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+                animationId = null;
+            }
+            initGame();
+            startScreen.style.display = 'flex';
+        }
+        
+        // Handle window resize
+        function resizeCanvas() {
+            const rect = { width: window.innerWidth, height: window.innerHeight };
+            const aspectRatio = 4/3;
+            
+            if (rect.width / rect.height > aspectRatio) {
+                HEIGHT = rect.height;
+                WIDTH = HEIGHT * aspectRatio;
+            } else {
+                WIDTH = rect.width;
+                HEIGHT = WIDTH / aspectRatio;
+            }
+            
+            canvas.width = WIDTH;
+            canvas.height = HEIGHT;
+            
+            // Reset player position
+            player.x = WIDTH / 2;
+            player.y = HEIGHT / 2;
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        
+        // Initialize game
+        initGame();
+        resizeCanvas();
+    </script>
+</body>
+</html>

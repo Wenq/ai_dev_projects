@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>浏览器Cache测试</title>
+    <style>
+        /* ... 样式代码 ... */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>浏览器缓存（LocalStorage）测试</h1>
+        
+        <!-- 原LocalStorage测试控件 -->
+        <div class="controls">
+            <button onclick="addCache()">增加缓存</button>
+            <button onclick="removeCache()">减少缓存</button>
+            <button onclick="testStorageLimit()">测试存储上限</button>
+            <button onclick="clearStorage()">清除缓存</button>
+        </div>
+
+        <div id="status" class="status-box">
+            <p>当前缓存大小: <span id="currentSize">0</span> KB</p>
+            <p>存储上限: <span id="storageLimit">未知</span></p>
+            <p>操作状态: <span id="statusText">就绪</span></p>
+        </div>
+
+        <!-- 新增内存测试模块 -->
+        <div class="memory-test">
+            <h2>内存(Memory)测试</h2>
+            <div class="controls">
+                <button onclick="addMemory()">分配内存</button>
+                <button onclick="removeMemory()">释放内存</button>
+                <button onclick="testMemoryLimit()">测试内存上限</button>
+                <button onclick="clearMemory()">清空内存</button>
+            </div>
+            <div id="memory-status" class="status-box live-status">
+                <p>当前内存占用: <span id="currentMemory">0</span> MB</p>
+                <p>内存上限: <span id="memoryLimit">未知</span></p>
+                <p>操作状态: <span id="memoryStatusText">就绪</span></p>
+            </div>
+            <div class="controls">
+                <button id="monitorButton" onclick="toggleMemoryMonitor()">启动实时监控</button>
+            </div>
+            <div id="memory-real-status" class="status-box">
+                <div id="liveMemoryStatus" class="live-status">
+                    <p>实时内存状态:</p>
+                    <p>已分配内存: <span id="allocatedMemory">0</span> MB</p>
+                    <p>JS堆大小: <span id="jsHeap">0</span> MB</p>
+                    <p>设备内存: <span id="deviceMemory">0</span> GB</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 新增内存测试相关变量
+        let memoryBlocks = [];  // 存储内存块的数组
+        const BASE_MEMORY = 1; // 每次分配的内存基数（单位：MB）
+
+        // 新增内存操作函数
+        function addMemory() {
+            try {
+                // 分配10MB内存（实际占用可能因浏览器而异）
+                const block = new ArrayBuffer(BASE_MEMORY * 1024 * 1024);
+                memoryBlocks.push(block);
+                updateMemoryDisplay();
+                setMemoryStatus(`成功分配 ${BASE_MEMORY}MB 内存`);
+            } catch (e) {
+                setMemoryStatus('内存分配失败！');
+            }
+        }
+
+        function removeMemory() {
+            if (memoryBlocks.length === 0) return;
+            memoryBlocks.pop();
+            updateMemoryDisplay();
+            setMemoryStatus('已释放最近分配的内存');
+        }
+
+        async function testMemoryLimit() {
+            setMemoryStatus('内存压力测试中...');
+            try {
+                while (true) {
+                    // 以100MB为增量进行测试
+                    const block = new ArrayBuffer(100 * 1024 * 1024);
+                    memoryBlocks.push(block);
+                    await new Promise(resolve => setTimeout(resolve, 0));
+                }
+            } catch (e) {
+                const limit = memoryBlocks.length * 100;
+                document.getElementById('memoryLimit').textContent = `${limit} MB`;
+                setMemoryStatus(`达到内存上限（约${limit}MB）`);
+            }
+            updateMemoryDisplay();
+        }
+
+        function clearMemory() {
+            memoryBlocks = [];
+            updateMemoryDisplay();
+            setMemoryStatus('内存已清空');
+        }
+
+        // 新增显示更新函数
+        function updateMemoryDisplay() {
+            const current = memoryBlocks.length * BASE_MEMORY;
+            document.getElementById('currentMemory').textContent = current;
+        }
+
+        function setMemoryStatus(text) {
+            document.getElementById('memoryStatusText').textContent = text;
+        }
+
+        // 测试用数据容器（用于存储上限测试）
+        let testData = '';
+        
+        // 更新界面显示状态
+        function updateDisplay() {
+            // 通过序列化计算总存储大小（单位：KB）
+            const currentSize = (JSON.stringify(localStorage).length / 1024).toFixed(2);
+            document.getElementById('currentSize').textContent = currentSize;
+        }
+
+        // 生成指定大小的测试数据（ASCII字符）
+        // 参数 kb: 需要生成的千字节数（每KB约512个字符）
+        function generateTestData(kb) {
+            return new Array(kb * 512).fill('0').join('');
+        }
+
+        // 增加缓存操作
+        function addCache() {
+            try {
+                // 生成100KB测试数据（约51,200个字符）
+                testData = generateTestData(100);
+                // 使用时间戳作为键值避免重复
+                localStorage.setItem(Date.now(), testData);
+                updateDisplay();
+                setStatus('成功增加100KB缓存');
+            } catch (e) {
+                // 捕获浏览器存储配额超出异常
+                setStatus('存储已达上限！');
+            }
+        }
+
+        // 删除最早缓存项（先进先出）
+        function removeCache() {
+            const keys = Object.keys(localStorage);
+            if(keys.length === 0) return;
+            
+            // 删除第一个存储项
+            localStorage.removeItem(keys[0]);
+            updateDisplay();
+            setStatus('已移除最早缓存项');
+        }
+
+        // 异步测试存储空间上限
+        async function testStorageLimit() {
+            setStatus('测试中，请稍候...');
+            let i = 0;
+            try {
+                // 持续写入直到触发异常
+                while(true) {
+                    const key = `test-${i++}`;
+                    // 使用定时器释放事件循环
+                    localStorage.setItem(key, generateTestData(100));
+                    await new Promise(resolve => setTimeout(resolve, 0));
+                }
+            } catch (e) {
+                // 计算当前已使用的存储空间作为上限参考值
+                const limit = (JSON.stringify(localStorage).length / 1024).toFixed(2);
+                document.getElementById('storageLimit').textContent = `${limit} KB`;
+                setStatus(`达到存储上限 (约${limit} KB)`);
+                // 清理所有测试产生的临时数据
+                for(let j = 0; j < i; j++) {
+                    localStorage.removeItem(`test-${j}`);
+                }
+            }
+            updateDisplay();
+        }
+
+        // 清空全部缓存
+        function clearStorage() {
+            localStorage.clear();
+            updateDisplay();
+            setStatus('缓存已清空');
+        }
+
+        // 更新状态栏提示信息
+        function setStatus(text) {
+            document.getElementById('statusText').textContent = text;
+        }
+
+        let isMonitoring = false;
+        let monitorInterval = null;
+
+        function toggleMemoryMonitor() {
+            const btn = document.getElementById('monitorButton');
+            isMonitoring = !isMonitoring;
+            
+            if (isMonitoring) {
+                // 启动监控（每500ms更新）
+                monitorInterval = setInterval(updateLiveMemoryStatus, 500);
+                btn.textContent = '停止实时监控';
+                btn.style.backgroundColor = '#ff5722';
+                setMemoryStatus('内存监控已启动');
+            } else {
+                clearInterval(monitorInterval);
+                btn.textContent = '启动实时监控';
+                btn.style.backgroundColor = '#4CAF50';
+                setMemoryStatus('内存监控已停止');
+            }
+        }
+
+        function updateLiveMemoryStatus() {
+            try {
+                // 使用Performance Memory API（Chrome支持）
+                const mem = performance.memory;
+                document.getElementById('allocatedMemory').textContent = 
+                    (memoryBlocks.length * BASE_MEMORY).toFixed(1);
+                document.getElementById('jsHeap').textContent = 
+                    (mem.usedJSHeapSize / 1024 / 1024).toFixed(1);
+                
+                // 显示设备内存信息（需要启用Experimental Web Platform features）
+                if (navigator.deviceMemory) {
+                    document.getElementById('deviceMemory').textContent = 
+                        navigator.deviceMemory;
+                }
+            } catch (e) {
+                setMemoryStatus('内存监控需要Chrome浏览器支持');
+                toggleMemoryMonitor(); // 自动停止监控
+            }
+        }
+    </script>
+</body>
+</html>
+<style>
+.live-status {
+    background-color: #f8f8f8;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 4px;
+}
+
+.live-status p {
+    margin: 5px 0;
+    font-size: 0.9em;
+}
+</style>

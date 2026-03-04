@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>系统参数 - 金蝶云星瀚</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@kdcloudjs/shoelace/dist/themes/light.css">
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@kdcloudjs/shoelace/dist/shoelace.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background-color: #f5f5f5;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* App Layout */
+    .app-layout {
+      display: flex;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Main Sidebar */
+    .main-sidebar {
+      display: flex;
+      flex-direction: column;
+      width: 180px;
+      height: 100%;
+      background-color: #2d2d3a;
+      color: #fff;
+      overflow-y: auto;
+      flex-shrink: 0;
+    }
+
+    .logo-section {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .logo {
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 8px;
+    }
+
+    .logo-text {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .menu-list {
+      list-style: none;
+      padding: 8px 0;
+    }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      padding: 10px 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 13px;
+    }
+
+    .menu-item:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+      color: #fff;
+    }
+
+    .menu-item.active {
+      background-color: rgba(91, 110, 225, 0.2);
+      color: #5b6ee1;
+      border-left: 3px solid #5b6ee1;
+    }
+
+    .menu-item sl-icon {
+      margin-right: 10px;
+      font-size: 16px;
+    }
+
+    .submenu {
+      list-style: none;
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    .submenu .menu-item {
+      padding-left: 42px;
+      font-size: 12px;
+    }
+
+    .submenu .menu-item.active {
+      background-color: rgba(91, 110, 225, 0.3);
+      color: #5b6ee1;
+    }
+
+    .expand-icon {
+      margin-left: auto;
+      font-size: 12px;
+      transition: transform 0.2s;
+    }
+
+    .expand-icon.expanded {
+      transform: rotate(180deg);
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Page Header */
+    .page-header {
+      display: block;
+      background-color: #fff;
+      border-bottom: 1px solid #e8e8e8;
+      flex-shrink: 0;
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      padding: 8px 16px;
+      border-bottom: 1px solid #e8e8e8;
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      flex: 1;
+    }
+
+    .breadcrumb-item {
+      display: flex;
+      align-items: center;
+      color: #666;
+      font-size: 14px;
+    }
+
+    .breadcrumb-item:not(:last-child)::after {
+      content: '>';
+      margin: 0 8px;
+      color: #999;
+    }
+
+    .breadcrumb-item.active {
+      color: #5b6ee1;
+      font-weight: 500;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .notification-bar {
+      display: flex;
+      align-items: center;
+      padding: 8px 16px;
+      background-color: #fffbe6;
+      border-bottom: 1px solid #ffe58f;
+    }
+
+    .notification-icon {
+      color: #faad14;
+      margin-right: 8px;
+    }
+
+    .notification-text {
+      font-size: 13px;
+      color: #666;
+    }
+
+    /* Page Content */
+    .page-content {
+      flex: 1;
+      overflow: auto;
+      background-color: #f5f5f5;
+    }
+
+    /* Security Params Page */
+    .page-container {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      background-color: #fff;
+    }
+
+    .left-panel {
+      width: 200px;
+      border-right: 1px solid #e8e8e8;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+
+    .tab-header {
+      display: flex;
+      border-bottom: 1px solid #e8e8e8;
+    }
+
+    .tab-item {
+      flex: 1;
+      padding: 12px 16px;
+      text-align: center;
+      cursor: pointer;
+      font-size: 14px;
+      color: #666;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+    }
+
+    .tab-item:hover {
+      color: #5b6ee1;
+    }
+
+    .tab-item.active {
+      color: #5b6ee1;
+      border-bottom-color: #5b6ee1;
+      font-weight: 500;
+    }
+
+    .sub-menu {
+      list-style: none;
+      padding: 8px 0;
+      overflow-y: auto;
+    }
+
+    .sub-menu-item {
+      padding: 10px 16px;
+      cursor: pointer;
+      font-size: 13px;
+      color: #666;
+      display: flex;
+      align-items: center;
+      transition: all 0.2s;
+    }
+
+    .sub-menu-item:hover {
+      background-color: #f5f5f5;
+      color: #5b6ee1;
+    }
+
+    .sub-menu-item.active {
+      background-color: rgba(91, 110, 225, 0.1);
+      color: #5b6ee1;
+      border-right: 3px solid #5b6ee1;
+    }
+
+    .right-panel {
+      flex: 1;
+      padding: 20px 24px;
+      overflow-y: auto;
+    }
+
+    .param-section {
+      margin-bottom: 24px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      margin-bottom: 16px;
+    }
+
+    .section-icon {
+      margin-right: 8px;
+      color: #666;
+      transition: transform 0.2s;
+    }
+
+    .section-icon.expanded {
+      transform: rotate(90deg);
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: #333;
+    }
+
+    .section-content {
+      padding-left: 24px;
+    }
+
+    .form-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+
+    .form-label {
+      width: 120px;
+      font-size: 13px;
+      color: #666;
+      padding-top: 6px;
+      flex-shrink: 0;
+    }
+
+    .form-control {
+      flex: 1;
+      max-width: 500px;
+    }
+
+    .form-hint {
+      font-size: 12px;
+      color: #999;
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+
+    .form-hint.warning {
+      color: #fa8c16;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .checkbox-label {
+      font-size: 13px;
+      color: #333;
+      margin-left: 8px;
+    }
+
+    .checkbox-label.highlight {
+      color: #d9363e;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Main Sidebar -->
+    <div class="main-sidebar">
+      <div class="logo-section">
+        <div class="logo">
+          <sl-icon name="app" style="color: white; font-size: 16px;"></sl-icon>
+        </div>
+        <span class="logo-text">金蝶云星瀚</span>
+      </div>
+      <ul class="menu-list">
+        <li class="menu-item">
+          <sl-icon name="gear"></sl-icon>
+          <span>参数配置</span>
+        </li>
+        <li class="menu-item">
+          <sl-icon name="printer"></sl-icon>
+          <span>打印配置</span>
+        </li>
+        <li class="menu-item">
+          <sl-icon name="palette"></sl-icon>
+          <span>界面方案</span>
+        </li>
+        <li class="menu-item">
+          <sl-icon name="download"></sl-icon>
+          <span>导入导出中心</span>
+        </li>
+        <li class="menu-item">
+          <sl-icon name="envelope"></sl-icon>
+          <span>消息设置</span>
+        </li>
+        <li class="menu-item">
+          <sl-icon name="hash"></sl-icon>
+          <span>编码规则配置</span>
+        </li>
+        <li class="menu-item">
+          <sl-icon name="grid-3x3"></sl-icon>
+          <span>应用管理</span>
+        </li>
+        <li class="menu-item">
+          <sl-icon name="exclamation-triangle"></sl-icon>
+          <span>预警平台</span>
+        </li>
+        <li class="menu-item">
+          <sl-icon name="globe"></sl-icon>
+          <span>国际化配置</span>
+        </li>
+        <li>
+          <div class="menu-item">
+            <sl-icon name="search"></sl-icon>
+            <span>查询配置</span>
+            <sl-icon name="chevron-down" class="expand-icon expanded"></sl-icon>
+          </div>
+          <ul class="submenu">
+            <li class="menu-item">公共参数</li>
+            <li class="menu-item">门户参数</li>
+            <li class="menu-item">登录参数</li>
+            <li class="menu-item">第三方参数</li>
+            <li class="menu-item">附件图片参数</li>
+            <li class="menu-item">文件服务参数</li>
+            <li class="menu-item">基础服务参数</li>
+            <li class="menu-item">开发服务参数</li>
+            <li class="menu-item">集成服务参数</li>
+            <li class="menu-item">OpenAPI参数</li>
+            <li class="menu-item active">安全参数</li>
+            <li class="menu-item">自定义参数</li>
+            <li class="menu-item">内部参数（不对外）</li>
+          </ul>
+        </li>
+        <li class="menu-item">
+          <sl-icon name="filter"></sl-icon>
+          <span>过滤方案维护</span>
+        </li>
+        <li class="menu-item">
+          <sl-icon name="chat"></sl-icon>
+          <span>lzh_qing</span>
+        </li>
+        <li class="menu-item">
+          <sl-icon name="question-circle"></sl-icon>
+          <span>帮助中心</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Page Header -->
+      <div class="page-header">
+        <div class="header-top">
+          <div class="breadcrumb">
+            <div class="breadcrumb-item">
+              <sl-icon name="grid" style="margin-right: 6px; color: #5b6ee1;"></sl-icon>
+              消息
+            </div>
+            <div class="breadcrumb-item">
+              公共设置
+            </div>
+            <div class="breadcrumb-item active">
+              系统参数
+            </div>
+          </div>
+        </div>
+        
+        <div class="notification-bar">
+          <sl-icon name="info-circle" class="notification-icon"></sl-icon>
+          <span class="notification-text">温馨提示：test</span>
+        </div>
+
+        <div class="header-top">
+          <div class="header-actions">
+            <sl-button variant="primary" size="small" style="--sl-color-primary-600: #5b6ee1;">
+              <sl-icon slot="prefix" name="check-lg"></sl-icon>
+              保存
+            </sl-button>
+            <sl-button variant="default" size="small">
+              <sl-icon slot="prefix" name="arrow-down"></sl-icon>
+              同步下级
+            </sl-button>
+            <sl-button variant="default" size="small">
+              <sl-icon slot="prefix" name="copy"></sl-icon>
+              参数复制
+              <sl-icon slot="suffix" name="chevron-down"></sl-icon>
+            </sl-button>
+            <sl-button variant="default" size="small">
+              <sl-icon slot="prefix" name="building"></sl-icon>
+              集团管控
+            </sl-button>
+            <sl-button variant="default" size="small">
+              <sl-icon slot="prefix" name="arrow-clockwise"></sl-icon>
+              刷新
+            </sl-button>
+            <sl-button variant="default" size="small">
+              <sl-icon slot="prefix" name="box-arrow-right"></sl-icon>
+              退出
+            </sl-button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Page Content -->
+      <div class="page-content">
+        <div class="page-container">
+          <!-- Left Panel -->
+          <div class="left-panel">
+            <div class="tab-header">
+              <div class="tab-item active">系统</div>
+              <div class="tab-item">应用</div>
+            </div>
+            <ul class="sub-menu">
+              <li class="sub-menu-item">公共参数</li>
+              <li class="sub-menu-item">门户参数</li>
+              <li class="sub-menu-item">登录参数</li>
+              <li class="sub-menu-item">第三方参数</li>
+              <li class="sub-menu-item">附件图片参数</li>
+              <li class="sub-menu-item">文件服务参数</li>
+              <li class="sub-menu-item">基础服务参数</li>
+              <li class="sub-menu-item">开发服务参数</li>
+              <li class="sub-menu-item">集成服务参数</li>
+              <li class="sub-menu-item">OpenAPI参数</li>
+              <li class="sub-menu-item active">安全参数</li>
+              <li class="sub-menu-item">自定义参数</li>
+              <li class="sub-menu-item">内部参数（不对外）</li>
+            </ul>
+          </div>
+
+          <!-- Right Panel -->
+          <div class="right-panel">
+            <!-- 附件安全参数 -->
+            <div class="param-section">
+              <div class="section-header">
+                <sl-icon name="caret-right-fill" class="section-icon"></sl-icon>
+                <span class="section-title">附件安全参数</span>
+              </div>
+            </div>
+
+            <!-- 导入安全参数 -->
+            <div class="param-section">
+              <div class="section-header" onclick="toggleSection('import-section')">
+                <sl-icon name="caret-right-fill" class="section-icon expanded" id="import-icon"></sl-icon>
+                <span class="section-title">导入安全参数</span>
+              </div>
+              <div class="section-content" id="import-section">
+                <div class="checkbox-item">
+                  <sl-checkbox>启用export.do接口权限校验</sl-checkbox>
+                </div>
+                <p class="form-hint warning">
+                  开启此选项，校验使用export.do接口时是否具备单据的查询权。
+                </p>
+              </div>
+            </div>
+
+            <!-- 访问安全参数 -->
+            <div class="param-section">
+              <div class="section-header" onclick="toggleSection('access-section')">
+                <sl-icon name="caret-right-fill" class="section-icon expanded" id="access-icon"></sl-icon>
+                <span class="section-title">访问安全参数</span>
+              </div>
+              <div class="section-content" id="access-section">
+                <div class="form-item">
+                  <label class="form-label">访问控制白名单</label>
+                  <div class="form-control">
+                    <sl-input value="www.baidu.com;www.163.com;80123123..." placeholder="请输入白名单">
+                      <sl-icon slot="suffix" name="box-arrow-up-right"></sl-icon>
+                    </sl-input>
+                    <p class="form-hint warning">
+                      系统访问外部链接的白名单，未在白名单中的非法链接禁止访问。
+                    </p>
+                  </div>
+                </div>
+                <div class="checkbox-item">
+                  <sl-checkbox checked>
+                    <span class="checkbox-label highlight">启用打开第三方链接提醒</span>
+                  </sl-checkbox>
+                </div>
+              </div>
+            </div>
+
+            <!-- 文件服务安全参数 -->
+            <div class="param-section">
+              <div class="section-header" onclick="toggleSection('file-section')">
+                <sl-icon name="caret-right-fill" class="section-icon expanded" id="file-icon"></sl-icon>
+                <span class="section-title">文件服务安全参数</span>
+              </div>
+              <div class="section-content" id="file-section">
+                <div class="form-item">
+                  <label class="form-label">文件加密方案配置</label>
+                  <div class="form-control">
+                    <sl-select value="aes256">
+                      <sl-option value="aes256">标准AES-256加密方案（文件）</sl-option>
+                      <sl-option value="aes128">标准AES-128加密方案（文件）</sl-option>
+                      <sl-option value="none">不加密</sl-option>
+                    </sl-select>
+                    <p class="form-hint">
+                      配置系统对所有上传到文件服务的文件进行加密的方式。
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /**
+     * 切换参数区块的展开/折叠状态
+     * @param {string} id - 区块的ID（如：import-section, access-section等）
+     * @description 该函数用于控制参数配置页面中各个区块的展开和折叠状态，同时更新对应图标的显示状态
+     */
+    function toggleSection(id) {
+      const section = document.getElementById(id);
+      const iconId = id.replace('-section', '-icon');
+      const icon = document.getElementById(iconId);
+      
+      if (section.style.display === 'none') {
+        section.style.display = 'block';
+        icon.classList.add('expanded');
+      } else {
+        section.style.display = 'none';
+        icon.classList.remove('expanded');
+      }
+    }
+  </script>
+</body>
+</html>

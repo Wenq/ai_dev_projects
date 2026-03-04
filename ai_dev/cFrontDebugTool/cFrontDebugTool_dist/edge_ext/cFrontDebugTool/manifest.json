@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "前端debug工具1.0",
+  "version": "1.0",
+  "action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "scripting"
+  ]
+}

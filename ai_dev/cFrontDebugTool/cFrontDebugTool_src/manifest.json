@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "前端debug工具1.0",
+  "version": "1.0",
+  "description": "一键打开debug模式、预览(PC/Mobile)单据、挂接本地或其他环境前端代码等",
+  "action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "clipboardWrite",
+    "tabs"
+  ],
+  "host_permissions": [
+    "*://fd.kingdee.com/*", 
+    "*://*/*"     
+  ]
+}

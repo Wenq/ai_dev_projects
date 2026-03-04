@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KWC 开发框架 - 现代化前端开发解决方案</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@kdcloudjs/shoelace/dist/themes/light.css">
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@kdcloudjs/shoelace/dist/shoelace.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f5f5f5;
+    }
+
+    /* 导航栏 */
+    .navbar {
+      background-color: #fff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .navbar-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      font-size: 20px;
+      font-weight: 600;
+      color: #5b6ee1;
+    }
+
+    .logo-icon {
+      margin-right: 8px;
+    }
+
+    .nav-menu {
+      display: flex;
+      list-style: none;
+      gap: 24px;
+    }
+
+    .nav-item a {
+      text-decoration: none;
+      color: #666;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-item a:hover {
+      color: #5b6ee1;
+    }
+
+    .nav-item.active a {
+      color: #5b6ee1;
+      border-bottom: 2px solid #5b6ee1;
+      padding-bottom: 4px;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    /* 英雄区 */
+    .hero {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      padding: 80px 0;
+      text-align: center;
+    }
+
+    .hero-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .hero-title {
+      font-size: 42px;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .hero-subtitle {
+      font-size: 18px;
+      color: #666;
+      margin-bottom: 40px;
+      line-height: 1.5;
+    }
+
+    .hero-features {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 60px;
+      flex-wrap: wrap;
+    }
+
+    .feature-item {
+      text-align: center;
+      max-width: 200px;
+    }
+
+    .feature-icon {
+      width: 60px;
+      height: 60px;
+      background-color: #5b6ee1;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      color: white;
+      font-size: 24px;
+    }
+
+    .feature-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .feature-desc {
+      font-size: 14px;
+      color: #666;
+    }
+
+    /* 核心功能区 */
+    .core-features {
+      padding: 100px 0;
+      background-color: #fff;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 32px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      font-size: 16px;
+      color: #666;
+      margin-bottom: 60px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+    }
+
+    .feature-card {
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      padding: 32px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-icon {
+      margin-bottom: 24px;
+      color: #5b6ee1;
+      font-size: 32px;
+    }
+
+    .card-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: #333;
+    }
+
+    .card-content {
+      font-size: 14px;
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      color: #5b6ee1;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .card-link sl-icon {
+      margin-left: 6px;
+      transition: transform 0.2s;
+    }
+
+    .card-link:hover sl-icon {
+      transform: translateX(3px);
+    }
+
+    /* 文档导航区 */
+    .docs-nav {
+      padding: 100px 0;
+      background-color: #f5f7fa;
+    }
+
+    .docs-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .docs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 32px;
+    }
+
+    .doc-card {
+      background-color: #fff;
+      border-radius: 8px;
+      padding: 32px 24px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s;
+    }
+
+    .doc-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .doc-icon {
+      margin-bottom: 20px;
+      color: #5b6ee1;
+    }
+
+    .doc-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #333;
+    }
+
+    .doc-desc {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .doc-list {
+      list-style: none;
+      margin-bottom: 24px;
+    }
+
+    .doc-list li {
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .doc-list a {
+      color: #666;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .doc-list a:hover {
+      color: #5b6ee1;
+    }
+
+    /* 教程区 */
+    .tutorials {
+      padding: 100px 0;
+      background-color: #fff;
+    }
+
+    .tutorials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 40px;
+    }
+
+    .tutorial-card {
+      border: 1px solid #e8e8e8;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .tutorial-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .tutorial-header {
+      padding: 24px;
+      background-color: #f9f9f9;
+      border-bottom: 1px solid #e8e8e8;
+    }
+
+    .tutorial-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    .tutorial-meta {
+      font-size: 12px;
+      color: #999;
+    }
+
+    .tutorial-content {
+      padding: 24px;
+    }
+
+    .tutorial-desc {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    /* 底部 */
+    .footer {
+      background-color: #2d2d3a;
+      color: #fff;
+      padding: 60px 0 30px;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .footer-section h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 12px;
+    }
+
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: #fff;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 30px;
+      text-align: center;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+      .navbar-container {
+        flex-direction: column;
+        height: auto;
+        padding: 16px 20px;
+      }
+
+      .nav-menu {
+        margin: 16px 0;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .hero-title {
+        font-size: 32px;
+      }
+
+      .hero-features {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .features-grid,
+      .docs-grid,
+      .tutorials-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero {
+        padding: 60px 0;
+      }
+
+      .hero-title {
+        font-size: 28px;
+      }
+
+      .core-features,
+      .docs-nav,
+      .tutorials {
+        padding: 60px 0;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 导航栏 -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <div class="logo">
+        <sl-icon name="code-slash" class="logo-icon"></sl-icon>
+        <span>KWC Framework</span>
+      </div>
+      <ul class="nav-menu">
+        <li class="nav-item active"><a href="#home">首页</a></li>
+        <li class="nav-item"><a href="#features">核心功能</a></li>
+        <li class="nav-item"><a href="#docs">文档</a></li>
+        <li class="nav-item"><a href="#tutorials">教程</a></li>
+        <li class="nav-item"><a href="#examples">示例</a></li>
+      </ul>
+      <div class="nav-actions">
+        <sl-button variant="default" size="small">GitHub</sl-button>
+        <sl-button variant="primary" size="small">开始使用</sl-button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 英雄区 -->
+  <section class="hero" id="home">
+    <div class="hero-container">
+      <h1 class="hero-title">KWC 开发框架</h1>
+      <p class="hero-subtitle">
+        现代化前端开发解决方案，集成脚手架、苍穹低代码平台、静态资源渲染和组件库，
+        为开发者提供高效、一致的开发体验
+      </p>
+      <div class="hero-actions">
+        <sl-button variant="primary" size="large" style="margin-right: 16px;">快速开始</sl-button>
+        <sl-button variant="default" size="large">查看文档</sl-button>
+      </div>
+      <div class="hero-features">
+        <div class="feature-item">
+          <div class="feature-icon">
+            <sl-icon name="terminal"></sl-icon>
+          </div>
+          <h3 class="feature-title">脚手架</h3>
+          <p class="feature-desc">快速搭建项目结构</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">
+            <sl-icon name="grid-3x3"></sl-icon>
+          </div>
+          <h3 class="feature-title">低代码集成</h3>
+          <p class="feature-desc">与苍穹低代码平台无缝集成</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">
+            <sl-icon name="file-code"></sl-icon>
+          </div>
+          <h3 class="feature-title">静态资源渲染</h3>
+          <p class="feature-desc">支持单独在静态资源中渲染</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">
+            <sl-icon name="palette"></sl-icon>
+          </div>
+          <h3 class="feature-title">组件库</h3>
+          <p class="feature-desc">@kdcloudjs/shoelace 组件库</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 核心功能区 -->
+  <section class="core-features" id="features">
+    <div class="container">
+      <h2 class="section-title">核心功能</h2>
+      <p class="section-subtitle">
+        KWC 框架提供了一系列强大的功能，帮助开发者更高效地构建现代化前端应用
+      </p>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="card-icon">
+            <sl-icon name="terminal" style="font-size: 32px;"></sl-icon>
+          </div>
+          <h3 class="card-title">项目脚手架</h3>
+          <div class="card-content">
+            提供现代化的项目脚手架，支持快速初始化前端项目，包含最佳实践配置和常用依赖，让开发者专注于业务逻辑开发。
+          </div>
+          <a href="#" class="card-link">
+            查看文档 <sl-icon name="arrow-right"></sl-icon>
+          </a>
+        </div>
+        <div class="feature-card">
+          <div class="card-icon">
+            <sl-icon name="grid-3x3" style="font-size: 32px;"></sl-icon>
+          </div>
+          <h3 class="card-title">苍穹低代码集成</h3>
+          <div class="card-content">
+            与金蝶苍穹低代码平台无缝集成，支持在低代码环境中使用自定义组件，扩展平台能力，提升开发效率。
+          </div>
+          <a href="#" class="card-link">
+            查看文档 <sl-icon name="arrow-right"></sl-icon>
+          </a>
+        </div>
+        <div class="feature-card">
+          <div class="card-icon">
+            <sl-icon name="file-code" style="font-size: 32px;"></sl-icon>
+          </div>
+          <h3 class="card-title">静态资源渲染</h3>
+          <div class="card-content">
+            支持在静态资源中单独渲染组件，无需完整的前端框架，适用于需要轻量级解决方案的场景。
+          </div>
+          <a href="#" class="card-link">
+            查看文档 <sl-icon name="arrow-right"></sl-icon>
+          </a>
+        </div>
+        <div class="feature-card">
+          <div class="card-icon">
+            <sl-icon name="palette" style="font-size: 32px;"></sl-icon>
+          </div>
+          <h3 class="card-title">组件库</h3>
+          <div class="card-content">
+            集成 @kdcloudjs/shoelace 组件库，提供丰富的基础UI组件，确保界面的一致性和美观性，减少重复开发工作。
+          </div>
+          <a href="#" class="card-link">
+            查看文档 <sl-icon name="arrow-right"></sl-icon>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 文档导航区 -->
+  <section class="docs-nav" id="docs">
+    <div class="docs-container">
+      <h2 class="section-title">文档中心</h2>
+      <p class="section-subtitle">
+        全面的文档指南，帮助开发者快速上手和深入理解 KWC 框架
+      </p>
+      <div class="docs-grid">
+        <div class="doc-card">
+          <div class="doc-icon">
+            <sl-icon name="book-open" style="font-size: 32px;"></sl-icon>
+          </div>
+          <h3 class="doc-title">新手入门</h3>
+          <p class="doc-desc">
+            从零开始学习 KWC 框架，包含环境搭建、项目初始化和基础概念
+          </p>
+          <ul class="doc-list">
+            <li><a href="#">环境搭建</a></li>
+            <li><a href="#">项目初始化</a></li>
+            <li><a href="#">基础概念</a></li>
+            <li><a href="#">第一个应用</a></li>
+          </ul>
+          <sl-button variant="default" size="small">查看详情</sl-button>
+        </div>
+        <div class="doc-card">
+          <div class="doc-icon">
+            <sl-icon name="layers" style="font-size: 32px;"></sl-icon>
+          </div>
+          <h3 class="doc-title">组件介绍</h3>
+          <p class="doc-desc">
+            详细了解 @kdcloudjs/shoelace 组件库中的各种组件及其使用方法
+          </p>
+          <ul class="doc-list">
+            <li><a href="#">基础组件</a></li>
+            <li><a href="#">表单组件</a></li>
+            <li><a href="#">导航组件</a></li>
+            <li><a href="#">布局组件</a></li>
+          </ul>
+          <sl-button variant="default" size="small">查看详情</sl-button>
+        </div>
+        <div class="doc-card">
+          <div class="doc-icon">
+            <sl-icon name="code" style="font-size: 32px;"></sl-icon>
+          </div>
+          <h3 class="doc-title">开发框架使用</h3>
+          <p class="doc-desc">
+            深入了解 KWC 框架的核心功能和使用技巧，提升开发效率
+          </p>
+          <ul class="doc-list">
+            <li><a href="#">脚手架使用</a></li>
+            <li><a href="#">低代码集成</a></li>
+            <li><a href="#">静态资源渲染</a></li>
+            <li><a href="#">配置管理</a></li>
+          </ul>
+          <sl-button variant="default" size="small">查看详情</sl-button>
+        </div>
+        <div class="doc-card">
+          <div class="doc-icon">
+            <sl-icon name="star" style="font-size: 32px;"></sl-icon>
+          </div>
+          <h3 class="doc-title">最佳实践</h3>
+          <p class="doc-desc">
+            学习 KWC 框架的最佳实践，构建高质量、可维护的应用
+          </p>
+          <ul class="doc-list">
+            <li><a href="#">代码规范</a></li>
+            <li><a href="#">性能优化</a></li>
+            <li><a href="#">可访问性</a></li>
+            <li><a href="#">部署策略</a></li>
+          </ul>
+          <sl-button variant="default" size="small">查看详情</sl-button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 教程区 -->
+  <section class="tutorials" id="tutorials">
+    <div class="container">
+      <h2 class="section-title">教程与示例</h2>
+      <p class="section-subtitle">
+        通过实际示例学习 KWC 框架的使用方法，快速掌握核心技能
+      </p>
+      <div class="tutorials-grid">
+        <div class="tutorial-card">
+          <div class="tutorial-header">
+            <h3 class="tutorial-title">创建第一个 KWC 应用</h3>
+            <div class="tutorial-meta">
+              <sl-icon name="clock"></sl-icon> 15 分钟
+            </div>
+          </div>
+          <div class="tutorial-content">
+            <p class="tutorial-desc">
+              本教程将引导你使用 KWC 脚手架创建第一个应用，包含项目初始化、组件创建和基本配置。
+            </p>
+            <sl-button variant="default" size="small">开始学习</sl-button>
+          </div>
+        </div>
+        <div class="tutorial-card">
+          <div class="tutorial-header">
+            <h3 class="tutorial-title">集成苍穹低代码平台</h3>
+            <div class="tutorial-meta">
+              <sl-icon name="clock"></sl-icon> 20 分钟
+            </div>
+          </div>
+          <div class="tutorial-content">
+            <p class="tutorial-desc">
+              学习如何将 KWC 组件集成到苍穹低代码平台中，扩展平台功能，实现自定义业务逻辑。
+            </p>
+            <sl-button variant="default" size="small">开始学习</sl-button>
+          </div>
+        </div>
+        <div class="tutorial-card">
+          <div class="tutorial-header">
+            <h3 class="tutorial-title">使用静态资源渲染</h3>
+            <div class="tutorial-meta">
+              <sl-icon name="clock"></sl-icon> 10 分钟
+            </div>
+          </div>
+          <div class="tutorial-content">
+            <p class="tutorial-desc">
+              了解如何在静态资源中使用 KWC 组件，无需完整的前端框架，实现轻量级解决方案。
+            </p>
+            <sl-button variant="default" size="small">开始学习</sl-button>
+          </div>
+        </div>
+        <div class="tutorial-card">
+          <div class="tutorial-header">
+            <h3 class="tutorial-title">构建响应式界面</h3>
+            <div class="tutorial-meta">
+              <sl-icon name="clock"></sl-icon> 25 分钟
+            </div>
+          </div>
+          <div class="tutorial-content">
+            <p class="tutorial-desc">
+              学习如何使用 @kdcloudjs/shoelace 组件库构建响应式界面，适配不同屏幕尺寸。
+            </p>
+            <sl-button variant="default" size="small">开始学习</sl-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 底部 -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-grid">
+        <div class="footer-section">
+          <h3>KWC Framework</h3>
+          <p style="color: rgba(255, 255, 255, 0.7); font-size: 14px; line-height: 1.5;">
+            现代化前端开发解决方案，集成脚手架、苍穹低代码平台、静态资源渲染和组件库
+          </p>
+        </div>
+        <div class="footer-section">
+          <h3>产品</h3>
+          <ul class="footer-links">
+            <li><a href="#">核心功能</a></li>
+            <li><a href="#">文档</a></li>
+            <li><a href="#">教程</a></li>
+            <li><a href="#">示例</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>资源</h3>
+          <ul class="footer-links">
+            <li><a href="#">GitHub</a></li>
+            <li><a href="#">社区</a></li>
+            <li><a href="#">博客</a></li>
+            <li><a href="#">支持</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>公司</h3>
+          <ul class="footer-links">
+            <li><a href="#">关于我们</a></li>
+            <li><a href="#">联系我们</a></li>
+            <li><a href="#">加入我们</a></li>
+            <li><a href="#">隐私政策</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 KWC Framework. 保留所有权利。</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

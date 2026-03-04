@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8"> <!-- 新增字符编码声明 -->
+  <link rel="stylesheet" type="text/css" href="popup.css">
+</head>
+
+<body>
+  <h1 class="panel-title">前端debug工具</h1>
+  <button id="debugBtn" class="tool-btn">进入debug模式</button>
+  <div class="btn-group">
+    <button id="loadLocalEnv" class="tool-btn">挂本地环境debug</button>
+    <button id="localSettingsBtn" class="tool-btn">配置环境url</button>
+  </div>
+  <div class="btn-group">
+    <button id="previewForm" class="tool-btn">预览单据</button>
+    <button id="previewMobileForm" class="tool-btn">预览mob单据</button>
+  </div>
+  <button id="oldPlatform" class="tool-btn">open旧开发平台</button>
+  <button id="newPlatform" class="tool-btn">open新(new)开发平台</button>
+  <div class="dropdown">
+    <button class="tool-btn" id="openTestEnv">打开测试环境 ▼</button>
+    <ul class="dropdown-menu"></ul>
+  </div>
+  <div class="dropdown">
+    <button class="tool-btn" id="mountTestEnv">挂上测试环境前端代码 ▼</button>
+    <ul class="dropdown-menu"></ul>
+  </div>
+  <script src="constants.js"></script>
+  <script src="popup.js"></script>
+</body>
+
+</html>
