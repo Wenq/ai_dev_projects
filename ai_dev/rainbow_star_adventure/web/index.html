@@ -121,6 +121,56 @@
         const timeElement = document.getElementById('time');
         const finalScoreElement = document.getElementById('finalScore');
         
+        // Web Audio API
+        let audioContext = null;
+        
+        // Initialize audio context
+        function initAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+        
+        // Play star sound
+        function playStarSound() {
+            initAudio();
+            
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+            oscillator.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.2);
+            
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.2);
+        }
+        
+        // Play game over sound
+        function playGameOverSound() {
+            initAudio();
+            
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.setValueAtTime(400, audioContext.currentTime);
+            oscillator.frequency.exponentialRampToValueAtTime(200, audioContext.currentTime + 0.5);
+            
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.5);
+        }
+        
         let WIDTH = 800;
         let HEIGHT = 600;
         let score = 0;
@@ -425,6 +475,9 @@
                     stars.splice(i, 1);
                     score++;
                     
+                    // Play star sound
+                    playStarSound();
+                    
                     // Add new star
                     stars.push({
                         x: 50 + Math.random() * (WIDTH - 100),
@@ -448,6 +501,8 @@
                 if (distance < 50) { // Player radius 30 + obstacle radius 20
                     gameOver = true;
                     gameOverScreen.style.display = 'flex';
+                    // Play game over sound
+                    playGameOverSound();
                     updateDisplay();
                 }
             });
@@ -458,6 +513,8 @@
                 timeLeft = 0;
                 gameOver = true;
                 gameOverScreen.style.display = 'flex';
+                // Play game over sound
+                playGameOverSound();
                 updateDisplay();
             } else {
                 updateDisplay();
