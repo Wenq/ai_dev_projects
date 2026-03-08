@@ -42,17 +42,65 @@
             font-weight: bold;
             cursor: pointer;
         }
-        .pause-btn {
-            background-color: #0000ff;
-            color: white;
-        }
-        .restart-btn {
-            background-color: #008000;
-            color: white;
-        }
         .quit-btn {
             background-color: #ff0000;
             color: white;
+        }
+        .music-control {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            display: flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 8px 12px;
+            border-radius: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .music-control input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 8px;
+            cursor: pointer;
+        }
+        .music-control label {
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+            user-select: none;
+        }
+        .difficulty-control {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            display: flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 8px 12px;
+            border-radius: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .difficulty-control label {
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+            margin-right: 8px;
+            user-select: none;
+        }
+        .difficulty-control select {
+            padding: 4px 8px;
+            border: 2px solid #663399;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #663399;
+            background-color: white;
+            cursor: pointer;
+            outline: none;
+        }
+        .difficulty-control select:focus {
+            border-color: #ff6b6b;
         }
         .start-screen, .pause-screen, .game-over-screen {
             position: absolute;
@@ -87,9 +135,21 @@
         <div id="time">Time: 60</div>
     </div>
     <div class="game-buttons">
-        <button class="pause-btn" onclick="togglePause()">Pause</button>
-        <button class="restart-btn" onclick="restartGame()">Restart</button>
         <button class="quit-btn" onclick="quitGame()">Quit</button>
+    </div>
+    
+    <div class="music-control">
+        <input type="checkbox" id="bgmToggle" checked>
+        <label for="bgmToggle">🎵 Background Music</label>
+    </div>
+    
+    <div class="difficulty-control">
+        <label for="difficultySelect">👾 Bad Guys:</label>
+        <select id="difficultySelect">
+            <option value="3" selected>3 (Easy)</option>
+            <option value="5">5 (Medium)</option>
+            <option value="10">10 (Hard)</option>
+        </select>
     </div>
     
     <div class="start-screen" id="startScreen">
@@ -123,6 +183,12 @@
         
         // Web Audio API
         let audioContext = null;
+        let bgmOscillators = [];
+        let bgmGainNode = null;
+        let isBgmPlaying = false;
+        
+        // Background music toggle
+        const bgmToggle = document.getElementById('bgmToggle');
         
         // Initialize audio context
         function initAudio() {
@@ -130,6 +196,95 @@
                 audioContext = new (window.AudioContext || window.webkitAudioContext)();
             }
         }
+        
+        // Play background music - gentle melody for children
+        function playBackgroundMusic() {
+            if (!bgmToggle.checked || isBgmPlaying) return;
+            
+            initAudio();
+            isBgmPlaying = true;
+            
+            // Create gain node for volume control
+            bgmGainNode = audioContext.createGain();
+            bgmGainNode.gain.setValueAtTime(0.08, audioContext.currentTime); // Low volume for background
+            bgmGainNode.connect(audioContext.destination);
+            
+            // Gentle melody notes (C major scale - happy and child-friendly)
+            const melody = [
+                { freq: 523.25, duration: 0.5 }, // C5
+                { freq: 587.33, duration: 0.5 }, // D5
+                { freq: 659.25, duration: 0.5 }, // E5
+                { freq: 523.25, duration: 0.5 }, // C5
+                { freq: 698.46, duration: 0.5 }, // F5
+                { freq: 659.25, duration: 0.5 }, // E5
+                { freq: 587.33, duration: 0.5 }, // D5
+                { freq: 523.25, duration: 1.0 }, // C5 (longer)
+            ];
+            
+            let currentTime = audioContext.currentTime;
+            
+            function playMelodyLoop() {
+                if (!isBgmPlaying) return;
+                
+                melody.forEach((note, index) => {
+                    const oscillator = audioContext.createOscillator();
+                    const noteGain = audioContext.createGain();
+                    
+                    oscillator.connect(noteGain);
+                    noteGain.connect(bgmGainNode);
+                    
+                    // Use sine wave for soft, gentle sound
+                    oscillator.type = 'sine';
+                    oscillator.frequency.setValueAtTime(note.freq, currentTime);
+                    
+                    // Soft attack and release
+                    noteGain.gain.setValueAtTime(0, currentTime);
+                    noteGain.gain.linearRampToValueAtTime(1, currentTime + 0.05);
+                    noteGain.gain.setValueAtTime(1, currentTime + note.duration - 0.05);
+                    noteGain.gain.linearRampToValueAtTime(0, currentTime + note.duration);
+                    
+                    oscillator.start(currentTime);
+                    oscillator.stop(currentTime + note.duration);
+                    
+                    bgmOscillators.push(oscillator);
+                    
+                    currentTime += note.duration;
+                });
+                
+                // Schedule next loop
+                setTimeout(() => {
+                    if (isBgmPlaying) {
+                        currentTime = audioContext.currentTime;
+                        playMelodyLoop();
+                    }
+                }, (currentTime - audioContext.currentTime) * 1000);
+            }
+            
+            playMelodyLoop();
+        }
+        
+        // Stop background music
+        function stopBackgroundMusic() {
+            isBgmPlaying = false;
+            bgmOscillators.forEach(osc => {
+                try {
+                    osc.stop();
+                } catch (e) {}
+            });
+            bgmOscillators = [];
+        }
+        
+        // Toggle background music
+        function toggleBackgroundMusic() {
+            if (bgmToggle.checked) {
+                playBackgroundMusic();
+            } else {
+                stopBackgroundMusic();
+            }
+        }
+        
+        // Listen for checkbox changes
+        bgmToggle.addEventListener('change', toggleBackgroundMusic);
         
         // Play star sound
         function playStarSound() {
@@ -195,7 +350,46 @@
         
         // Obstacle settings
         const obstacles = [];
-        const obstacleCount = 5;
+        let obstacleCount = 3; // Default to 3 for easier difficulty
+        
+        // Difficulty selector
+        const difficultySelect = document.getElementById('difficultySelect');
+        
+        // Listen for difficulty changes
+        difficultySelect.addEventListener('change', () => {
+            // Update obstacle count immediately
+            obstacleCount = parseInt(difficultySelect.value);
+            
+            // Only reinitialize if game hasn't started or is over
+            if (!gameStarted || gameOver) {
+                initGame();
+            } else {
+                // If game is in progress, just update obstacles
+                updateObstaclesCount();
+            }
+        });
+        
+        // Update obstacles count without full reinitialization
+        function updateObstaclesCount() {
+            const currentCount = obstacles.length;
+            const targetCount = obstacleCount;
+            
+            if (targetCount > currentCount) {
+                // Add more obstacles
+                for (let i = currentCount; i < targetCount; i++) {
+                    obstacles.push({
+                        x: 50 + Math.random() * (WIDTH - 100),
+                        y: 50 + Math.random() * (HEIGHT - 100),
+                        speedX: Math.random() > 0.5 ? 2 : -2,
+                        speedY: Math.random() > 0.5 ? 2 : -2,
+                        color: '#663399' // Dark purple
+                    });
+                }
+            } else if (targetCount < currentCount) {
+                // Remove excess obstacles
+                obstacles.splice(targetCount);
+            }
+        }
         
         // Color settings
         const BACKGROUND_COLORS = ['#ffb6c1', '#add8e6', '#90ee90', '#ffffb6', '#dda0dd'];
@@ -212,6 +406,9 @@
             gameOver = false;
             gamePaused = false;
             gameStarted = false;
+            
+            // Update obstacle count based on difficulty selection
+            obstacleCount = parseInt(difficultySelect.value);
             
             // Reset player
             player.x = WIDTH / 2;
@@ -501,6 +698,8 @@
                 if (distance < 50) { // Player radius 30 + obstacle radius 20
                     gameOver = true;
                     gameOverScreen.style.display = 'flex';
+                    // Stop background music
+                    stopBackgroundMusic();
                     // Play game over sound
                     playGameOverSound();
                     updateDisplay();
@@ -513,6 +712,8 @@
                 timeLeft = 0;
                 gameOver = true;
                 gameOverScreen.style.display = 'flex';
+                // Stop background music
+                stopBackgroundMusic();
                 // Play game over sound
                 playGameOverSound();
                 updateDisplay();
@@ -537,6 +738,11 @@
         };
         
         document.addEventListener('keydown', (e) => {
+            // Prevent default behavior for game control keys
+            if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', ' '].includes(e.key)) {
+                e.preventDefault();
+            }
+            
             switch (e.key) {
                 case 'ArrowLeft':
                     keys.left = true;
@@ -551,12 +757,13 @@
                     keys.down = true;
                     break;
                 case ' ': // Spacebar
+                case 'Spacebar': // For older browsers
                     if (!gameStarted) {
                         startGame();
-                    } else if (!gameOver) {
-                        togglePause();
-                    } else {
+                    } else if (gameOver) {
                         restartGame();
+                    } else {
+                        togglePause();
                     }
                     break;
             }
@@ -635,6 +842,11 @@
         
         // Mouse/touch screen taps
         document.addEventListener('click', (e) => {
+            // Check if click is on control panels (music or difficulty)
+            if (e.target.closest('.music-control') || e.target.closest('.difficulty-control')) {
+                return; // Don't start/reset game when clicking controls
+            }
+            
             if (!gameStarted) {
                 startGame();
             } else if (gamePaused) {
@@ -651,12 +863,20 @@
             if (!animationId) {
                 gameLoop();
             }
+            // Start background music
+            playBackgroundMusic();
         }
         
         // Toggle pause
         function togglePause() {
             gamePaused = !gamePaused;
             pauseScreen.style.display = gamePaused ? 'flex' : 'none';
+            // Pause/resume background music
+            if (gamePaused) {
+                stopBackgroundMusic();
+            } else {
+                playBackgroundMusic();
+            }
         }
         
         // Restart game
@@ -667,6 +887,9 @@
             if (!animationId) {
                 gameLoop();
             }
+            // Restart background music
+            stopBackgroundMusic();
+            playBackgroundMusic();
         }
         
         // Quit game
@@ -675,6 +898,8 @@
                 cancelAnimationFrame(animationId);
                 animationId = null;
             }
+            // Stop background music
+            stopBackgroundMusic();
             initGame();
             startScreen.style.display = 'flex';
         }
