@@ -1,0 +1,614 @@
+<template>
+    <div class="page-wrapper">
+        <!-- 侧边书签导航 -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <sl-icon kwc:external name="grid-3x3" class="sidebar-icon"></sl-icon>
+                <span>Grid 布局</span>
+            </div>
+            <nav class="bookmark-nav">
+                <template for:each={bookmarks} for:item="bookmark">
+                    <button
+                        key={bookmark.id}
+                        class={bookmark.activeClass}
+                        data-target={bookmark.id}
+                        onclick={handleBookmarkClick}
+                    >
+                        <sl-icon kwc:external name={bookmark.icon}></sl-icon>
+                        <span>{bookmark.label}</span>
+                    </button>
+                </template>
+            </nav>
+        </aside>
+
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <h1 class="title">Shoelace Grid 栅格布局组件示例</h1>
+
+            <!-- ===== 案例 1: 基础栅格布局 ===== -->
+            <section class="section section-case1">
+                <h2>案例 1: 基础栅格布局 (24 列系统)</h2>
+                <p class="desc">
+                    栅格系统基于 24 列布局。通过 sl-row 和 sl-col 组件实现。
+                    使用 span 属性指定列宽（1-24）。
+                </p>
+                <div class="demo-box">
+                    <div class="demo-label">等分布局：</div>
+                    <sl-row kwc:external gutter="16">
+                        <sl-col kwc:external span="24">
+                            <div class="col-content col-bg1">col-24 (100%)</div>
+                        </sl-col>
+                    </sl-row>
+                    <sl-row kwc:external gutter="16">
+                        <sl-col kwc:external span="12">
+                            <div class="col-content col-bg1">col-12 (50%)</div>
+                        </sl-col>
+                        <sl-col kwc:external span="12">
+                            <div class="col-content col-bg2">col-12 (50%)</div>
+                        </sl-col>
+                    </sl-row>
+                    <sl-row kwc:external gutter="16">
+                        <sl-col kwc:external span="8">
+                            <div class="col-content col-bg1">col-8 (33.3%)</div>
+                        </sl-col>
+                        <sl-col kwc:external span="8">
+                            <div class="col-content col-bg2">col-8 (33.3%)</div>
+                        </sl-col>
+                        <sl-col kwc:external span="8">
+                            <div class="col-content col-bg1">col-8 (33.3%)</div>
+                        </sl-col>
+                    </sl-row>
+                    <sl-row kwc:external gutter="16">
+                        <sl-col kwc:external span="6">
+                            <div class="col-content col-bg1">col-6 (25%)</div>
+                        </sl-col>
+                        <sl-col kwc:external span="6">
+                            <div class="col-content col-bg2">col-6 (25%)</div>
+                        </sl-col>
+                        <sl-col kwc:external span="6">
+                            <div class="col-content col-bg1">col-6 (25%)</div>
+                        </sl-col>
+                        <sl-col kwc:external span="6">
+                            <div class="col-content col-bg2">col-6 (25%)</div>
+                        </sl-col>
+                    </sl-row>
+
+                    <div class="demo-label margin-top-large">不等分布局：</div>
+                    <sl-row kwc:external gutter="16">
+                        <sl-col kwc:external span="4">
+                            <div class="col-content col-bg1">col-4</div>
+                        </sl-col>
+                        <sl-col kwc:external span="20">
+                            <div class="col-content col-bg2">col-20</div>
+                        </sl-col>
+                    </sl-row>
+                    <sl-row kwc:external gutter="16">
+                        <sl-col kwc:external span="6">
+                            <div class="col-content col-bg1">col-6</div>
+                        </sl-col>
+                        <sl-col kwc:external span="18">
+                            <div class="col-content col-bg2">col-18</div>
+                        </sl-col>
+                    </sl-row>
+                    <sl-row kwc:external gutter="16">
+                        <sl-col kwc:external span="8">
+                            <div class="col-content col-bg1">col-8</div>
+                        </sl-col>
+                        <sl-col kwc:external span="8">
+                            <div class="col-content col-bg2">col-8</div>
+                        </sl-col>
+                        <sl-col kwc:external span="4">
+                            <div class="col-content col-bg1">col-4</div>
+                        </sl-col>
+                        <sl-col kwc:external span="4">
+                            <div class="col-content col-bg2">col-4</div>
+                        </sl-col>
+                    </sl-row>
+                </div>
+            </section>
+
+            <!-- ===== 案例 2: 栅格间距 ===== -->
+            <section class="section section-case2">
+                <h2>案例 2: 栅格间距 (Gutter)</h2>
+                <p class="desc">
+                    通过 gutter 属性设置列之间的间距。可以是单一数值（水平间距），
+                    也可以是数组 [水平间距, 垂直间距]。
+                </p>
+                <div class="demo-box">
+                    <div class="demo-label">gutter = 8:</div>
+                    <sl-row kwc:external gutter="8">
+                        <sl-col kwc:external span="6">
+                            <div class="col-content col-bg1">col-6</div>
+                        </sl-col>
+                        <sl-col kwc:external span="6">
+                            <div class="col-content col-bg2">col-6</div>
+                        </sl-col>
+                        <sl-col kwc:external span="6">
+                            <div class="col-content col-bg1">col-6</div>
+                        </sl-col>
+                        <sl-col kwc:external span="6">
+                            <div class="col-content col-bg2">col-6</div>
+                        </sl-col>
+                    </sl-row>
+
+                    <div class="demo-label">gutter = 16:</div>
+                    <sl-row kwc:external gutter="16">
+                        <sl-col kwc:external span="6">
+                            <div class="col-content col-bg1">col-6</div>
+                        </sl-col>
+                        <sl-col kwc:external span="6">
+                            <div class="col-content col-bg2">col-6</div>
+                        </sl-col>
+                        <sl-col kwc:external span="6">
+                            <div class="col-content col-bg1">col-6</div>
+                        </sl-col>
+                        <sl-col kwc:external span="6">
+                            <div class="col-content col-bg2">col-6</div>
+                        </sl-col>
+                    </sl-row>
+
+                    <div class="demo-label">gutter = 32:</div>
+                    <sl-row kwc:external gutter="32">
+                        <sl-col kwc:external span="6">
+                            <div class="col-content col-bg1">col-6</div>
+                        </sl-col>
+                        <sl-col kwc:external span="6">
+                            <div class="col-content col-bg2">col-6</div>
+                        </sl-col>
+                        <sl-col kwc:external span="6">
+                            <div class="col-content col-bg1">col-6</div>
+                        </sl-col>
+                        <sl-col kwc:external span="6">
+                            <div class="col-content col-bg2">col-6</div>
+                        </sl-col>
+                    </sl-row>
+
+                    <div class="demo-label">gutter = [16, 24] (水平16px, 垂直24px):</div>
+                    <sl-row kwc:external class="gutter-array-row">
+                        <sl-col kwc:external span="6">
+                            <div class="col-content col-bg1">col-6</div>
+                        </sl-col>
+                        <sl-col kwc:external span="6">
+                            <div class="col-content col-bg2">col-6</div>
+                        </sl-col>
+                        <sl-col kwc:external span="6">
+                            <div class="col-content col-bg1">col-6</div>
+                        </sl-col>
+                        <sl-col kwc:external span="6">
+                            <div class="col-content col-bg2">col-6</div>
+                        </sl-col>
+                        <sl-col kwc:external span="6">
+                            <div class="col-content col-bg1">col-6</div>
+                        </sl-col>
+                        <sl-col kwc:external span="6">
+                            <div class="col-content col-bg2">col-6</div>
+                        </sl-col>
+                        <sl-col kwc:external span="6">
+                            <div class="col-content col-bg1">col-6</div>
+                        </sl-col>
+                        <sl-col kwc:external span="6">
+                            <div class="col-content col-bg2">col-6</div>
+                        </sl-col>
+                    </sl-row>
+                </div>
+            </section>
+
+            <!-- ===== 案例 3: 响应式布局 ===== -->
+            <section class="section section-case3">
+                <h2>案例 3: 响应式布局 (Responsive)</h2>
+                <p class="desc">
+                    通过 xs、sm、md、lg、xl、xxl 属性实现响应式布局。
+                    断点：xs(&lt;576px)、sm(≥576px)、md(≥768px)、lg(≥992px)、xl(≥1200px)、xxl(≥1600px)
+                </p>
+                <div class="demo-box">
+                    <div class="demo-label">响应式栅格（调整浏览器宽度查看效果）：</div>
+                    <sl-row kwc:external gutter="16">
+                        <sl-col kwc:external class="responsive-col">
+                            <div class="col-content col-bg1">
+                                xs:24 sm:12 md:8 lg:6 xl:4
+                            </div>
+                        </sl-col>
+                        <sl-col kwc:external class="responsive-col">
+                            <div class="col-content col-bg2">
+                                xs:24 sm:12 md:8 lg:6 xl:4
+                            </div>
+                        </sl-col>
+                        <sl-col kwc:external class="responsive-col">
+                            <div class="col-content col-bg1">
+                                xs:24 sm:12 md:8 lg:6 xl:4
+                            </div>
+                        </sl-col>
+                        <sl-col kwc:external class="responsive-col">
+                            <div class="col-content col-bg2">
+                                xs:24 sm:12 md:8 lg:6 xl:4
+                            </div>
+                        </sl-col>
+                    </sl-row>
+
+                    <div class="demo-label margin-top-large">
+                        响应式配置对象（可同时设置 span 和 offset）：
+                    </div>
+                    <sl-row kwc:external gutter="16">
+                        <sl-col kwc:external class="responsive-offset-col">
+                            <div class="col-content col-bg1">
+                                响应式 + 偏移
+                            </div>
+                        </sl-col>
+                        <sl-col kwc:external class="responsive-offset-col">
+                            <div class="col-content col-bg2">
+                                响应式 + 偏移
+                            </div>
+                        </sl-col>
+                    </sl-row>
+                </div>
+            </section>
+
+            <!-- ===== 案例 4: 列偏移 ===== -->
+            <section class="section section-case4">
+                <h2>案例 4: 列偏移 (Offset)</h2>
+                <p class="desc">
+                    使用 offset 属性可以将列向右偏移指定的列数。
+                </p>
+                <div class="demo-box">
+                    <div class="demo-label">offset = 8:</div>
+                    <sl-row kwc:external gutter="16">
+                        <sl-col kwc:external span="8">
+                            <div class="col-content col-bg1">col-8</div>
+                        </sl-col>
+                        <sl-col kwc:external span="8" offset="8">
+                            <div class="col-content col-bg2">col-8 offset-8</div>
+                        </sl-col>
+                    </sl-row>
+
+                    <div class="demo-label">不同偏移量：</div>
+                    <sl-row kwc:external gutter="16">
+                        <sl-col kwc:external span="6" offset="6">
+                            <div class="col-content col-bg1">col-6 offset-6</div>
+                        </sl-col>
+                        <sl-col kwc:external span="6" offset="6">
+                            <div class="col-content col-bg2">col-6 offset-6</div>
+                        </sl-col>
+                    </sl-row>
+
+                    <sl-row kwc:external gutter="16">
+                        <sl-col kwc:external span="12" offset="6">
+                            <div class="col-content col-bg1">col-12 offset-6</div>
+                        </sl-col>
+                    </sl-row>
+
+                    <sl-row kwc:external gutter="16">
+                        <sl-col kwc:external span="6">
+                            <div class="col-content col-bg1">col-6</div>
+                        </sl-col>
+                        <sl-col kwc:external span="6" offset="3">
+                            <div class="col-content col-bg2">col-6 offset-3</div>
+                        </sl-col>
+                        <sl-col kwc:external span="6" offset="3">
+                            <div class="col-content col-bg1">col-6 offset-3</div>
+                        </sl-col>
+                    </sl-row>
+                </div>
+            </section>
+
+            <!-- ===== 案例 5: 对齐方式 ===== -->
+            <section class="section section-case5">
+                <h2>案例 5: 对齐方式 (Justify &amp; Align)</h2>
+                <p class="desc">
+                    使用 justify 设置水平对齐（start/center/end/space-around/space-between/space-evenly），
+                    使用 align 设置垂直对齐（top/middle/bottom）。
+                </p>
+                <div class="demo-box">
+                    <div class="demo-label">justify="start" (默认):</div>
+                    <sl-row kwc:external gutter="16" justify="start" class="align-demo">
+                        <sl-col kwc:external span="4">
+                            <div class="col-content col-bg1">col-4</div>
+                        </sl-col>
+                        <sl-col kwc:external span="4">
+                            <div class="col-content col-bg2">col-4</div>
+                        </sl-col>
+                        <sl-col kwc:external span="4">
+                            <div class="col-content col-bg1">col-4</div>
+                        </sl-col>
+                    </sl-row>
+
+                    <div class="demo-label">justify="center":</div>
+                    <sl-row kwc:external gutter="16" justify="center" class="align-demo">
+                        <sl-col kwc:external span="4">
+                            <div class="col-content col-bg1">col-4</div>
+                        </sl-col>
+                        <sl-col kwc:external span="4">
+                            <div class="col-content col-bg2">col-4</div>
+                        </sl-col>
+                        <sl-col kwc:external span="4">
+                            <div class="col-content col-bg1">col-4</div>
+                        </sl-col>
+                    </sl-row>
+
+                    <div class="demo-label">justify="end":</div>
+                    <sl-row kwc:external gutter="16" justify="end" class="align-demo">
+                        <sl-col kwc:external span="4">
+                            <div class="col-content col-bg1">col-4</div>
+                        </sl-col>
+                        <sl-col kwc:external span="4">
+                            <div class="col-content col-bg2">col-4</div>
+                        </sl-col>
+                        <sl-col kwc:external span="4">
+                            <div class="col-content col-bg1">col-4</div>
+                        </sl-col>
+                    </sl-row>
+
+                    <div class="demo-label">justify="space-between":</div>
+                    <sl-row kwc:external gutter="16" justify="space-between" class="align-demo">
+                        <sl-col kwc:external span="4">
+                            <div class="col-content col-bg1">col-4</div>
+                        </sl-col>
+                        <sl-col kwc:external span="4">
+                            <div class="col-content col-bg2">col-4</div>
+                        </sl-col>
+                        <sl-col kwc:external span="4">
+                            <div class="col-content col-bg1">col-4</div>
+                        </sl-col>
+                    </sl-row>
+
+                    <div class="demo-label">justify="space-around":</div>
+                    <sl-row kwc:external gutter="16" justify="space-around" class="align-demo">
+                        <sl-col kwc:external span="4">
+                            <div class="col-content col-bg1">col-4</div>
+                        </sl-col>
+                        <sl-col kwc:external span="4">
+                            <div class="col-content col-bg2">col-4</div>
+                        </sl-col>
+                        <sl-col kwc:external span="4">
+                            <div class="col-content col-bg1">col-4</div>
+                        </sl-col>
+                    </sl-row>
+
+                    <div class="demo-label">justify="space-evenly":</div>
+                    <sl-row kwc:external gutter="16" justify="space-evenly" class="align-demo">
+                        <sl-col kwc:external span="4">
+                            <div class="col-content col-bg1">col-4</div>
+                        </sl-col>
+                        <sl-col kwc:external span="4">
+                            <div class="col-content col-bg2">col-4</div>
+                        </sl-col>
+                        <sl-col kwc:external span="4">
+                            <div class="col-content col-bg1">col-4</div>
+                        </sl-col>
+                    </sl-row>
+
+                    <div class="demo-label margin-top-xlarge">垂直对齐 (align):</div>
+                    <div class="align-row">
+                        <div class="align-item">
+                            <div class="align-label">align="top"</div>
+                            <sl-row kwc:external gutter="16" align="top" class="align-demo-tall">
+                                <sl-col kwc:external span="8">
+                                    <div class="col-content col-bg1 col-tall">高</div>
+                                </sl-col>
+                                <sl-col kwc:external span="8">
+                                    <div class="col-content col-bg2">普通</div>
+                                </sl-col>
+                                <sl-col kwc:external span="8">
+                                    <div class="col-content col-bg1 col-short">矮</div>
+                                </sl-col>
+                            </sl-row>
+                        </div>
+                        <div class="align-item">
+                            <div class="align-label">align="middle"</div>
+                            <sl-row kwc:external gutter="16" align="middle" class="align-demo-tall">
+                                <sl-col kwc:external span="8">
+                                    <div class="col-content col-bg1 col-tall">高</div>
+                                </sl-col>
+                                <sl-col kwc:external span="8">
+                                    <div class="col-content col-bg2">普通</div>
+                                </sl-col>
+                                <sl-col kwc:external span="8">
+                                    <div class="col-content col-bg1 col-short">矮</div>
+                                </sl-col>
+                            </sl-row>
+                        </div>
+                        <div class="align-item">
+                            <div class="align-label">align="bottom"</div>
+                            <sl-row kwc:external gutter="16" align="bottom" class="align-demo-tall">
+                                <sl-col kwc:external span="8">
+                                    <div class="col-content col-bg1 col-tall">高</div>
+                                </sl-col>
+                                <sl-col kwc:external span="8">
+                                    <div class="col-content col-bg2">普通</div>
+                                </sl-col>
+                                <sl-col kwc:external span="8">
+                                    <div class="col-content col-bg1 col-short">矮</div>
+                                </sl-col>
+                            </sl-row>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== 案例 6: Flex 布局 ===== -->
+            <section class="section section-case6">
+                <h2>案例 6: Flex 布局</h2>
+                <p class="desc">
+                    使用 flex 属性可以更灵活地控制列宽。支持 "auto"、数字、或具体尺寸。
+                    使用 order 属性可以改变列的排列顺序。使用 push/pull 可以推拉列位置。
+                </p>
+                <div class="demo-box">
+                    <div class="demo-label">flex="auto" (自动填充剩余空间):</div>
+                    <sl-row kwc:external gutter="16">
+                        <sl-col kwc:external flex="100px">
+                            <div class="col-content col-bg1">100px</div>
+                        </sl-col>
+                        <sl-col kwc:external flex="auto">
+                            <div class="col-content col-bg2">auto</div>
+                        </sl-col>
+                        <sl-col kwc:external flex="100px">
+                            <div class="col-content col-bg1">100px</div>
+                        </sl-col>
+                    </sl-row>
+
+                    <div class="demo-label">flex 比例分配:</div>
+                    <sl-row kwc:external gutter="16">
+                        <sl-col kwc:external flex="1">
+                            <div class="col-content col-bg1">flex: 1</div>
+                        </sl-col>
+                        <sl-col kwc:external flex="2">
+                            <div class="col-content col-bg2">flex: 2</div>
+                        </sl-col>
+                        <sl-col kwc:external flex="1">
+                            <div class="col-content col-bg1">flex: 1</div>
+                        </sl-col>
+                    </sl-row>
+
+                    <div class="demo-label">order 排序（改变显示顺序）:</div>
+                    <sl-row kwc:external gutter="16">
+                        <sl-col kwc:external span="6" order="4">
+                            <div class="col-content col-bg1">1st (order: 4)</div>
+                        </sl-col>
+                        <sl-col kwc:external span="6" order="3">
+                            <div class="col-content col-bg2">2nd (order: 3)</div>
+                        </sl-col>
+                        <sl-col kwc:external span="6" order="2">
+                            <div class="col-content col-bg1">3rd (order: 2)</div>
+                        </sl-col>
+                        <sl-col kwc:external span="6" order="1">
+                            <div class="col-content col-bg2">4th (order: 1)</div>
+                        </sl-col>
+                    </sl-row>
+
+                    <div class="demo-label">push/pull 推拉:</div>
+                    <sl-row kwc:external gutter="16">
+                        <sl-col kwc:external span="8" push="16">
+                            <div class="col-content col-bg1">col-8 push-16</div>
+                        </sl-col>
+                        <sl-col kwc:external span="16" pull="8">
+                            <div class="col-content col-bg2">col-16 pull-8</div>
+                        </sl-col>
+                    </sl-row>
+
+                    <div class="demo-label">wrap=false (不换行):</div>
+                    <sl-row kwc:external gutter="16" wrap="false">
+                        <sl-col kwc:external flex="200px">
+                            <div class="col-content col-bg1">200px</div>
+                        </sl-col>
+                        <sl-col kwc:external flex="auto">
+                            <div class="col-content col-bg2">auto (压缩)</div>
+                        </sl-col>
+                        <sl-col kwc:external flex="200px">
+                            <div class="col-content col-bg1">200px</div>
+                        </sl-col>
+                        <sl-col kwc:external flex="200px">
+                            <div class="col-content col-bg2">200px</div>
+                        </sl-col>
+                    </sl-row>
+                </div>
+            </section>
+
+            <!-- ===== 案例 7: 功能组合案例 ===== -->
+            <section class="section section-case7 full-width-section">
+                <h2>案例 7: 功能组合案例（属性开关）</h2>
+                <p class="desc">通过下方控制面板调整栅格的各项属性，实时预览效果</p>
+
+                <!-- 控制面板 -->
+                <div class="control-panel">
+                    <h3>属性控制面板</h3>
+                    <div class="controls">
+                        <div class="control-item">
+                            <label>水平间距 (Gutter H): {gutterDisplay}</label>
+                            <sl-input
+                                kwc:external
+                                class="gutter-input"
+                                type="number"
+                                value={gutter}
+                                min="0"
+                                max="64"
+                            ></sl-input>
+                        </div>
+
+                        <div class="control-item">
+                            <label>垂直间距 (Gutter V): {verticalGutterDisplay}</label>
+                            <sl-input
+                                kwc:external
+                                class="vertical-gutter-input"
+                                type="number"
+                                value={verticalGutter}
+                                min="0"
+                                max="64"
+                            ></sl-input>
+                        </div>
+
+                        <div class="control-item">
+                            <label>水平对齐 (Justify):</label>
+                            <sl-radio-group kwc:external class="justify-radio-group" value={justify}>
+                                <sl-radio kwc:external value="start">start</sl-radio>
+                                <sl-radio kwc:external value="center">center</sl-radio>
+                                <sl-radio kwc:external value="end">end</sl-radio>
+                                <sl-radio kwc:external value="space-between">between</sl-radio>
+                                <sl-radio kwc:external value="space-around">around</sl-radio>
+                            </sl-radio-group>
+                        </div>
+
+                        <div class="control-item">
+                            <label>垂直对齐 (Align):</label>
+                            <sl-radio-group kwc:external class="align-radio-group" value={align}>
+                                <sl-radio kwc:external value="top">top</sl-radio>
+                                <sl-radio kwc:external value="middle">middle</sl-radio>
+                                <sl-radio kwc:external value="bottom">bottom</sl-radio>
+                            </sl-radio-group>
+                        </div>
+
+                        <div class="control-item">
+                            <label>换行 (Wrap):</label>
+                            <sl-switch kwc:external class="wrap-switch" checked={wrap}>
+                                {wrapText}
+                            </sl-switch>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 预览区域 -->
+                <div class="demo-box">
+                    <sl-row
+                        kwc:external
+                        class="preview-row"
+                        justify={justify}
+                        align={align}
+                        wrap={wrap}
+                    >
+                        <sl-col kwc:external span="4">
+                            <div class="col-content col-bg1 col-tall">col-4 高</div>
+                        </sl-col>
+                        <sl-col kwc:external span="4">
+                            <div class="col-content col-bg2">col-4</div>
+                        </sl-col>
+                        <sl-col kwc:external span="4">
+                            <div class="col-content col-bg1 col-short">col-4 矮</div>
+                        </sl-col>
+                        <sl-col kwc:external span="4">
+                            <div class="col-content col-bg2">col-4</div>
+                        </sl-col>
+                        <sl-col kwc:external span="4">
+                            <div class="col-content col-bg1">col-4</div>
+                        </sl-col>
+                        <sl-col kwc:external span="4">
+                            <div class="col-content col-bg2 col-tall">col-4 高</div>
+                        </sl-col>
+                        <sl-col kwc:external span="8">
+                            <div class="col-content col-bg1">col-8</div>
+                        </sl-col>
+                        <sl-col kwc:external span="8">
+                            <div class="col-content col-bg2">col-8</div>
+                        </sl-col>
+                        <sl-col kwc:external span="8">
+                            <div class="col-content col-bg1">col-8</div>
+                        </sl-col>
+                    </sl-row>
+                </div>
+
+                <!-- 当前配置显示 -->
+                <div class="config-display">
+                    <h4>当前配置:</h4>
+                    <pre>{configJson}</pre>
+                </div>
+            </section>
+        </main>
+    </div>
+</template>

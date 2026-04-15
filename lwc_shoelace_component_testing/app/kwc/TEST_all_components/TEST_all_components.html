@@ -1,0 +1,59 @@
+<template>
+    <div class="pageWrapper">
+        <!-- 顶部标题栏 -->
+        <header class="header">
+            <div class="headerContent">
+                <h1 class="title">
+                    <sl-icon kwc:external name="puzzle" class="titleIcon"></sl-icon>
+                    Shoelace 组件验收中心
+                </h1>
+                <p class="subtitle">
+                    当前组件：{currentLabel}
+                </p>
+            </div>
+        </header>
+
+        <!-- 内容区：左右分栏 -->
+        <div class="contentWrapper">
+            <!-- 左侧组件列表 -->
+            <aside class="sidebar">
+                <div class="sidebarHeader">
+                    <sl-icon kwc:external name="grid-3x3-gap" class="headerIcon"></sl-icon>
+                    <span>组件列表</span>
+                </div>
+                <nav class="navMenu">
+                    <template for:each={computedMenuItems} for:item="item">
+                        <div
+                            key={item.key}
+                            class={item.itemClass}
+                            data-key={item.key}
+                            onclick={handleNavClick}
+                        >
+                            {item.label}
+                        </div>
+                    </template>
+                </nav>
+            </aside>
+
+            <!-- 右侧组件内容区 -->
+            <main class="mainContent">
+                <!-- 使用 if:true 条件显示各子组件 -->
+                <template if:true={isNavActive}>
+                    <kwc-test-sl-nav></kwc-test-sl-nav>
+                </template>
+                <template if:true={isGridActive}>
+                    <kwc-test-sl-grid></kwc-test-sl-grid>
+                </template>
+                <template if:true={isScreenActive}>
+                    <kwc-test-sl-screen></kwc-test-sl-screen>
+                </template>
+                <template if:true={isDialogActive}>
+                    <kwc-test-sl-dialog></kwc-test-sl-dialog>
+                </template>
+                <template if:true={isPaginationActive}>
+                    <kwc-test-sl-pagination></kwc-test-sl-pagination>
+                </template>
+            </main>
+        </div>
+    </div>
+</template>

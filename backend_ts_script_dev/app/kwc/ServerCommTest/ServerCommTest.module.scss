@@ -1,0 +1,183 @@
+.container {
+    min-height: 100vh;
+    padding: var(--sl-spacing-2x-large);
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: var(--sl-color-neutral-0);
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--sl-font-size-2x-large);
+    margin-bottom: var(--sl-spacing-2x-large);
+    background: linear-gradient(90deg, #915EFF, #1975FF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.requestCard,
+.responseCard {
+    margin-bottom: var(--sl-spacing-large);
+    --padding: var(--sl-spacing-large);
+}
+
+.requestCard::part(base),
+.responseCard::part(base) {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.cardHeader {
+    display: flex;
+    align-items: center;
+    gap: var(--sl-spacing-small);
+    font-weight: var(--sl-font-weight-semibold);
+    color: var(--sl-color-neutral-0);
+}
+
+.formGroup {
+    margin-bottom: var(--sl-spacing-medium);
+}
+
+.urlRow {
+    display: flex;
+    gap: var(--sl-spacing-small);
+}
+
+.methodSelect {
+    width: 120px;
+    flex-shrink: 0;
+}
+
+.methodSelect::part(combobox) {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: var(--sl-color-neutral-0);
+}
+
+.urlInput {
+    flex: 1;
+}
+
+.urlInput::part(base) {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.urlInput::part(input) {
+    color: var(--sl-color-neutral-0);
+}
+
+.label {
+    display: block;
+    margin-bottom: var(--sl-spacing-x-small);
+    font-size: var(--sl-font-size-small);
+    color: var(--sl-color-neutral-400);
+}
+
+.textarea {
+    width: 100%;
+}
+
+.textarea::part(base) {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.textarea::part(textarea) {
+    color: var(--sl-color-neutral-0);
+    font-family: monospace;
+}
+
+.buttonGroup {
+    display: flex;
+    gap: var(--sl-spacing-small);
+    margin-top: var(--sl-spacing-medium);
+}
+
+.statusBadge {
+    padding: var(--sl-spacing-2x-small) var(--sl-spacing-small);
+    border-radius: var(--sl-border-radius-pill);
+    font-size: var(--sl-font-size-small);
+    font-weight: var(--sl-font-weight-semibold);
+    margin-left: auto;
+}
+
+.statusBadge.success {
+    background: var(--sl-color-success-600);
+    color: var(--sl-color-neutral-0);
+}
+
+.statusBadge.danger {
+    background: var(--sl-color-danger-600);
+    color: var(--sl-color-neutral-0);
+}
+
+.statusBadge.warning {
+    background: var(--sl-color-warning-600);
+    color: var(--sl-color-neutral-900);
+}
+
+.statusBadge.neutral {
+    background: var(--sl-color-neutral-600);
+    color: var(--sl-color-neutral-0);
+}
+
+.timeBadge {
+    padding: var(--sl-spacing-2x-small) var(--sl-spacing-small);
+    border-radius: var(--sl-border-radius-pill);
+    font-size: var(--sl-font-size-small);
+    background: rgba(25, 117, 255, 0.3);
+    color: var(--sl-color-primary-400);
+}
+
+.loadingContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--sl-spacing-2x-large);
+    color: var(--sl-color-neutral-400);
+}
+
+.responseBody {
+    background: rgba(0, 0, 0, 0.3);
+    padding: var(--sl-spacing-medium);
+    border-radius: var(--sl-border-radius-medium);
+    overflow: auto;
+    max-height: 400px;
+    font-family: monospace;
+    font-size: var(--sl-font-size-small);
+    color: var(--sl-color-success-400);
+    white-space: pre-wrap;
+    word-break: break-all;
+    margin: 0;
+}
+
+.placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--sl-spacing-2x-large);
+    color: var(--sl-color-neutral-500);
+}
+
+.presetSection {
+    margin-top: var(--sl-spacing-large);
+}
+
+.presetSection h3 {
+    font-size: var(--sl-font-size-medium);
+    margin-bottom: var(--sl-spacing-medium);
+    color: var(--sl-color-neutral-300);
+}
+
+.presetButtons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sl-spacing-small);
+}

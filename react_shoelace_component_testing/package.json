@@ -10,7 +10,8 @@
     "test": "vitest",
     "test:watch": "vitest --watch",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "check-update": "node scripts/check-shoelace-update.cjs"
   },
   "peerDependencies": {
     "react": "19.2.0",
@@ -27,6 +28,7 @@
     "express": "^5.2.1",
     "globals": "^15.14.0",
     "jsdom": "^23.0.0",
+    "prismjs": "^1.30.0",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "sass": "^1.69.0",
@@ -36,6 +38,7 @@
   },
   "dependencies": {
     "@kdcloudjs/kwc-shared-utils": "0.x",
-    "@kdcloudjs/shoelace": "^1.0.30"
+    "@kdcloudjs/shoelace": "^1.0.50",
+    "@kdcloudjs/shoelace-biz": "^0.0.1"
   }
 }

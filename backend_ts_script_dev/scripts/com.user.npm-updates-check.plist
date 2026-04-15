@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.user.npm-updates-check</string>
+    
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/local/bin/node</string>
+        <string>/Volumes/Macintosh HD - 数据/wenq/github_code/ai_dev/backend_ts_script_dev/scripts/check-npm-updates.js</string>
+    </array>
+    
+    <key>WorkingDirectory</key>
+    <string>/Volumes/Macintosh HD - 数据/wenq/github_code/ai_dev/backend_ts_script_dev</string>
+    
+    <!-- 每天早上 9:10 执行 -->
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>9</integer>
+        <key>Minute</key>
+        <integer>10</integer>
+    </dict>
+    
+    <!-- 日志输出 -->
+    <key>StandardOutPath</key>
+    <string>/tmp/npm-updates-check.log</string>
+    <key>StandardErrorPath</key>
+    <string>/tmp/npm-updates-check-error.log</string>
+    
+    <key>RunAtLoad</key>
+    <false/>
+</dict>
+</plist>

@@ -1,0 +1,276 @@
+/* 页面整体布局 */
+.pageWrapper {
+    display: flex;
+    height: 100%;
+    background-color: var(--sl-color-neutral-100);
+}
+
+/* 侧边栏书签导航 */
+.sidebar {
+    width: 220px;
+    min-width: 220px;
+    height: 100%;
+    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+    color: var(--sl-color-neutral-0);
+    overflow-y: auto;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.sidebarHeader {
+    display: flex;
+    align-items: center;
+    gap: var(--sl-spacing-small);
+    padding: var(--sl-spacing-large);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: var(--sl-font-size-medium);
+    font-weight: 600;
+}
+
+.sidebarIcon {
+    font-size: var(--sl-font-size-large, 20px);
+    color: #ffd700;
+}
+
+.bookmarkNav {
+    padding: var(--sl-spacing-small) 0;
+}
+
+.bookmarkItem {
+    display: flex;
+    align-items: center;
+    gap: var(--sl-spacing-small);
+    width: 100%;
+    padding: var(--sl-spacing-small) var(--sl-spacing-large);
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: var(--sl-font-size-small);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+}
+
+.bookmarkItem:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--sl-color-neutral-0);
+}
+
+.bookmarkItem.active {
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    color: var(--sl-color-neutral-0);
+    border-left: 3px solid #ffd700;
+}
+
+.bookmarkItem sl-icon {
+    font-size: var(--sl-font-size-medium);
+    flex-shrink: 0;
+}
+
+.bookmarkItem span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 主内容区 */
+.mainContent {
+    flex: 1;
+    padding: var(--sl-spacing-large);
+    overflow-y: auto;
+}
+
+.title {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--sl-color-neutral-700);
+    margin-bottom: var(--sl-spacing-large);
+    text-align: center;
+    border-bottom: 2px solid var(--sl-color-primary-600);
+    padding-bottom: var(--sl-spacing-medium);
+}
+
+.section {
+    background: var(--sl-color-neutral-0);
+    border-radius: var(--sl-border-radius-large);
+    padding: var(--sl-spacing-large);
+    margin-bottom: var(--sl-spacing-large);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.section h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--sl-color-neutral-800);
+    margin-bottom: var(--sl-spacing-x-small);
+}
+
+.fullWidthSection {
+    max-width: 100%;
+}
+
+.desc {
+    color: var(--sl-color-neutral-600);
+    font-size: var(--sl-font-size-small);
+    margin-bottom: var(--sl-spacing-medium);
+}
+
+.demoBox {
+    padding: var(--sl-spacing-large);
+    background-color: var(--sl-color-neutral-50);
+    border: 1px solid var(--sl-color-neutral-200);
+    border-radius: var(--sl-border-radius-medium);
+    overflow-x: auto;
+}
+
+.demoBox sl-nav {
+    background-color: var(--sl-color-neutral-0);
+    border-radius: var(--sl-border-radius-medium);
+}
+
+.darkBox {
+    background-color: #1f1f1f;
+}
+
+.darkBox sl-nav {
+    background-color: #141414;
+}
+
+/* 控制面板样式 */
+.controlPanel {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: var(--sl-border-radius-large);
+    padding: var(--sl-spacing-large);
+    margin-bottom: var(--sl-spacing-large);
+    color: var(--sl-color-neutral-0);
+}
+
+.controlPanel h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: var(--sl-spacing-large);
+    color: var(--sl-color-neutral-0);
+}
+
+.controls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--sl-spacing-large);
+}
+
+.controlItem {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sl-spacing-x-small);
+}
+
+.controlItem label {
+    font-weight: 500;
+    font-size: var(--sl-font-size-small);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.controlItem sl-radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sl-spacing-small);
+}
+
+.controlItem sl-radio {
+    --sl-color-primary-600: #fff;
+    --sl-color-primary-500: rgba(255, 255, 255, 0.8);
+}
+
+.controlItem sl-switch {
+    --sl-color-primary-600: #fff;
+    --sl-color-primary-500: rgba(255, 255, 255, 0.8);
+}
+
+.configDisplay {
+    margin-top: var(--sl-spacing-large);
+    padding: var(--sl-spacing-medium);
+    background-color: #f6f8fa;
+    border-radius: var(--sl-border-radius-medium);
+    border: 1px solid var(--sl-color-neutral-200);
+}
+
+.configDisplay h4 {
+    font-size: var(--sl-font-size-small);
+    font-weight: 600;
+    color: var(--sl-color-neutral-800);
+    margin-bottom: var(--sl-spacing-small);
+}
+
+.configDisplay pre {
+    background-color: var(--sl-color-neutral-0);
+    padding: var(--sl-spacing-small);
+    border-radius: var(--sl-border-radius-medium);
+    font-size: var(--sl-font-size-x-small);
+    color: var(--sl-color-neutral-800);
+    overflow-x: auto;
+    border: 1px solid var(--sl-color-neutral-200);
+}
+
+/* 响应式适配 */
+@media (max-width: 1024px) {
+    .sidebar {
+        width: 180px;
+        min-width: 180px;
+    }
+
+    .bookmarkItem {
+        padding: var(--sl-spacing-small) var(--sl-spacing-medium);
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 768px) {
+    .pageWrapper {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        min-width: 100%;
+        height: auto;
+        border-radius: 0 0 var(--sl-border-radius-large) var(--sl-border-radius-large);
+    }
+
+    .mainContent {
+        padding: var(--sl-spacing-medium);
+    }
+
+    .bookmarkNav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--sl-spacing-x-small);
+        padding: var(--sl-spacing-small);
+    }
+
+    .bookmarkItem {
+        width: auto;
+        padding: var(--sl-spacing-x-small) var(--sl-spacing-small);
+        border-radius: var(--sl-border-radius-medium);
+        font-size: var(--sl-font-size-x-small);
+    }
+
+    .bookmarkItem span {
+        display: none;
+    }
+
+    .title {
+        font-size: 22px;
+    }
+
+    .section {
+        padding: var(--sl-spacing-medium);
+    }
+
+    .controls {
+        grid-template-columns: 1fr;
+    }
+
+    .controlItem sl-radio-group {
+        flex-direction: column;
+        gap: var(--sl-spacing-x-small);
+    }
+}

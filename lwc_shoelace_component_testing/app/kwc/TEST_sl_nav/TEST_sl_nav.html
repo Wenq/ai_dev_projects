@@ -1,0 +1,392 @@
+<template>
+    <div class="pageWrapper">
+        <!-- 侧边书签导航 -->
+        <aside class="sidebar">
+            <div class="sidebarHeader">
+                <sl-icon kwc:external name="bookmark-star" class="sidebarIcon"></sl-icon>
+                <span>案例导航</span>
+            </div>
+            <nav class="bookmarkNav">
+                <template for:each={bookmarksWithClass} for:item="bookmark">
+                    <button key={bookmark.id} class={bookmark.cssClass} data-id={bookmark.id} onclick={handleBookmarkClick}>
+                        <sl-icon kwc:external name={bookmark.icon}></sl-icon>
+                        <span>{bookmark.label}</span>
+                    </button>
+                </template>
+            </nav>
+        </aside>
+
+        <!-- 主内容区 -->
+        <main class="mainContent">
+            <h1 class="title">Shoelace Nav 导航组件示例</h1>
+
+            <!-- 案例 1: 基础内联导航 -->
+            <section class="section section-case1">
+                <h2>案例 1: 基础内联导航 (Inline Mode)</h2>
+                <p class="desc">最基本的垂直导航，适用于侧边栏菜单</p>
+                <div class="demoBox">
+                    <sl-nav kwc:external mode="inline" style="width: 200px;">
+                        <sl-nav-item kwc:external item-key="home" data-name="首页" data-key="home" onclick={handleItemClick}>
+                            <sl-icon kwc:external slot="prefix" name="house"></sl-icon>
+                            首页
+                        </sl-nav-item>
+                        <sl-nav-item kwc:external item-key="products" data-name="产品" data-key="products" onclick={handleItemClick}>
+                            <sl-icon kwc:external slot="prefix" name="box"></sl-icon>
+                            产品
+                        </sl-nav-item>
+                        <sl-nav-item kwc:external item-key="services" data-name="服务" data-key="services" onclick={handleItemClick}>
+                            <sl-icon kwc:external slot="prefix" name="gear"></sl-icon>
+                            服务
+                        </sl-nav-item>
+                        <sl-nav-item kwc:external item-key="about" data-name="关于我们" data-key="about" onclick={handleItemClick}>
+                            <sl-icon kwc:external slot="prefix" name="info-circle"></sl-icon>
+                            关于我们
+                        </sl-nav-item>
+                    </sl-nav>
+                </div>
+            </section>
+
+            <!-- 案例 2: 水平导航 -->
+            <section class="section section-case2">
+                <h2>案例 2: 水平导航 (Horizontal Mode)</h2>
+                <p class="desc">适用于顶部导航栏</p>
+                <div class="demoBox">
+                    <sl-nav kwc:external mode="horizontal">
+                        <sl-nav-item kwc:external item-key="home" data-name="首页" data-key="home" onclick={handleItemClick}>首页</sl-nav-item>
+                        <sl-nav-item kwc:external item-key="products" data-name="产品" data-key="products" onclick={handleItemClick}>产品</sl-nav-item>
+                        <sl-nav-item kwc:external item-key="services" data-name="服务" data-key="services" onclick={handleItemClick}>服务</sl-nav-item>
+                        <sl-nav-item kwc:external item-key="about" data-name="关于我们" data-key="about" onclick={handleItemClick}>关于我们</sl-nav-item>
+                        <sl-nav-item kwc:external item-key="contact" data-name="联系我们" data-key="contact" onclick={handleItemClick}>联系我们</sl-nav-item>
+                    </sl-nav>
+                </div>
+            </section>
+
+            <!-- 案例 3: 垂直导航 -->
+            <section class="section section-case3">
+                <h2>案例 3: 垂直导航 (Vertical Mode)</h2>
+                <p class="desc">垂直排列的导航菜单</p>
+                <div class="demoBox">
+                    <sl-nav kwc:external mode="vertical" style="width: 200px;">
+                        <sl-nav-item kwc:external item-key="home" data-name="首页" data-key="home" onclick={handleItemClick}>
+                            <sl-icon kwc:external slot="prefix" name="house"></sl-icon>
+                            首页
+                        </sl-nav-item>
+                        <sl-nav-item kwc:external item-key="products" data-name="产品" data-key="products" onclick={handleItemClick}>
+                            <sl-icon kwc:external slot="prefix" name="box"></sl-icon>
+                            产品
+                        </sl-nav-item>
+                        <sl-nav-item kwc:external item-key="services" data-name="服务" data-key="services" onclick={handleItemClick}>
+                            <sl-icon kwc:external slot="prefix" name="gear"></sl-icon>
+                            服务
+                        </sl-nav-item>
+                        <sl-nav-item kwc:external item-key="about" data-name="关于我们" data-key="about" onclick={handleItemClick}>
+                            <sl-icon kwc:external slot="prefix" name="info-circle"></sl-icon>
+                            关于我们
+                        </sl-nav-item>
+                    </sl-nav>
+                </div>
+            </section>
+
+            <!-- 案例 4: 带分组的导航 -->
+            <section class="section section-case4">
+                <h2>案例 4: 带分组的导航 (Nav Group)</h2>
+                <p class="desc">将导航项分组显示，带有分组标题</p>
+                <div class="demoBox">
+                    <sl-nav kwc:external mode="inline" style="width: 200px;">
+                        <sl-nav-group kwc:external label="基础功能">
+                            <sl-nav-item kwc:external item-key="dashboard" data-name="仪表盘" data-key="dashboard" onclick={handleItemClick}>
+                                <sl-icon kwc:external slot="prefix" name="speedometer"></sl-icon>
+                                仪表盘
+                            </sl-nav-item>
+                            <sl-nav-item kwc:external item-key="analytics" data-name="数据分析" data-key="analytics" onclick={handleItemClick}>
+                                <sl-icon kwc:external slot="prefix" name="graph-up"></sl-icon>
+                                数据分析
+                            </sl-nav-item>
+                        </sl-nav-group>
+                        <sl-nav-group kwc:external label="系统管理">
+                            <sl-nav-item kwc:external item-key="users" data-name="用户管理" data-key="users" onclick={handleItemClick}>
+                                <sl-icon kwc:external slot="prefix" name="people"></sl-icon>
+                                用户管理
+                            </sl-nav-item>
+                            <sl-nav-item kwc:external item-key="settings" data-name="系统设置" data-key="settings" onclick={handleItemClick}>
+                                <sl-icon kwc:external slot="prefix" name="sliders"></sl-icon>
+                                系统设置
+                            </sl-nav-item>
+                        </sl-nav-group>
+                    </sl-nav>
+                </div>
+            </section>
+
+            <!-- 案例 5: 带子菜单的导航 -->
+            <section class="section section-case5">
+                <h2>案例 5: 带子菜单的导航 (Nav Submenu)</h2>
+                <p class="desc">支持多级嵌套的导航菜单</p>
+                <div class="demoBox">
+                    <sl-nav kwc:external mode="inline" style="width: 220px;">
+                        <sl-nav-item kwc:external item-key="home" data-name="首页" data-key="home" onclick={handleItemClick}>
+                            <sl-icon kwc:external slot="prefix" name="house"></sl-icon>
+                            首页
+                        </sl-nav-item>
+                        <sl-nav-submenu kwc:external title="产品中心">
+                            <sl-icon kwc:external slot="prefix" name="box"></sl-icon>
+                            <sl-nav-item kwc:external item-key="product1" data-name="产品 A" data-key="product1" onclick={handleItemClick}>产品 A</sl-nav-item>
+                            <sl-nav-item kwc:external item-key="product2" data-name="产品 B" data-key="product2" onclick={handleItemClick}>产品 B</sl-nav-item>
+                            <sl-nav-submenu kwc:external title="子分类">
+                                <sl-nav-item kwc:external item-key="sub1" data-name="子项 1" data-key="sub1" onclick={handleItemClick}>子项 1</sl-nav-item>
+                                <sl-nav-item kwc:external item-key="sub2" data-name="子项 2" data-key="sub2" onclick={handleItemClick}>子项 2</sl-nav-item>
+                            </sl-nav-submenu>
+                        </sl-nav-submenu>
+                        <sl-nav-submenu kwc:external title="服务支持">
+                            <sl-icon kwc:external slot="prefix" name="gear"></sl-icon>
+                            <sl-nav-item kwc:external item-key="consulting" data-name="咨询服务" data-key="consulting" onclick={handleItemClick}>咨询服务</sl-nav-item>
+                            <sl-nav-item kwc:external item-key="training" data-name="培训服务" data-key="training" onclick={handleItemClick}>培训服务</sl-nav-item>
+                            <sl-nav-item kwc:external item-key="support" data-name="技术支持" data-key="support" onclick={handleItemClick}>技术支持</sl-nav-item>
+                        </sl-nav-submenu>
+                        <sl-nav-item kwc:external item-key="contact" data-name="联系我们" data-key="contact" onclick={handleItemClick}>
+                            <sl-icon kwc:external slot="prefix" name="envelope"></sl-icon>
+                            联系我们
+                        </sl-nav-item>
+                    </sl-nav>
+                </div>
+            </section>
+
+            <!-- 案例 6: 多选导航 -->
+            <section class="section section-case6">
+                <h2>案例 6: 多选导航 (Multiple Selection)</h2>
+                <p class="desc">支持同时选择多个导航项</p>
+                <div class="demoBox">
+                    <sl-nav kwc:external mode="inline" multiple style="width: 200px;">
+                        <sl-nav-item kwc:external item-key="item1" data-name="选项 1" data-key="item1" onclick={handleItemClick}>选项 1</sl-nav-item>
+                        <sl-nav-item kwc:external item-key="item2" data-name="选项 2" data-key="item2" onclick={handleItemClick}>选项 2</sl-nav-item>
+                        <sl-nav-item kwc:external item-key="item3" data-name="选项 3" data-key="item3" onclick={handleItemClick}>选项 3</sl-nav-item>
+                        <sl-nav-item kwc:external item-key="item4" data-name="选项 4" data-key="item4" onclick={handleItemClick}>选项 4</sl-nav-item>
+                    </sl-nav>
+                </div>
+            </section>
+
+            <!-- 案例 7: 内联折叠导航 -->
+            <section class="section section-case7">
+                <h2>案例 7: 内联折叠导航 (Inline Collapsed)</h2>
+                <p class="desc">折叠状态下的导航，只显示图标</p>
+                <div class="demoBox">
+                    <sl-nav kwc:external mode="inline" inline-collapsed style="width: 60px;">
+                        <sl-nav-item kwc:external item-key="home" title="首页" data-name="首页" data-key="home" onclick={handleItemClick}>
+                            <sl-icon kwc:external slot="prefix" name="house"></sl-icon>
+                        </sl-nav-item>
+                        <sl-nav-item kwc:external item-key="products" title="产品" data-name="产品" data-key="products" onclick={handleItemClick}>
+                            <sl-icon kwc:external slot="prefix" name="box"></sl-icon>
+                        </sl-nav-item>
+                        <sl-nav-item kwc:external item-key="services" title="服务" data-name="服务" data-key="services" onclick={handleItemClick}>
+                            <sl-icon kwc:external slot="prefix" name="gear"></sl-icon>
+                        </sl-nav-item>
+                        <sl-nav-item kwc:external item-key="about" title="关于" data-name="关于" data-key="about" onclick={handleItemClick}>
+                            <sl-icon kwc:external slot="prefix" name="info-circle"></sl-icon>
+                        </sl-nav-item>
+                    </sl-nav>
+                </div>
+            </section>
+
+            <!-- 案例 8: 禁用选择导航 -->
+            <section class="section section-case8">
+                <h2>案例 8: 禁用选择 (Non-selectable)</h2>
+                <p class="desc">导航项不可被选中，仅用于展示</p>
+                <div class="demoBox">
+                    <sl-nav kwc:external mode="inline" selectable="false" style="width: 200px;">
+                        <sl-nav-item kwc:external item-key="home" data-name="首页" data-key="home" onclick={handleItemClick}>首页</sl-nav-item>
+                        <sl-nav-item kwc:external item-key="products" data-name="产品" data-key="products" onclick={handleItemClick}>产品</sl-nav-item>
+                        <sl-nav-item kwc:external item-key="services" data-name="服务" data-key="services" onclick={handleItemClick}>服务</sl-nav-item>
+                        <sl-nav-item kwc:external item-key="about" data-name="关于我们" data-key="about" onclick={handleItemClick}>关于我们</sl-nav-item>
+                    </sl-nav>
+                </div>
+            </section>
+
+            <!-- 案例 9: 禁用项导航 -->
+            <section class="section section-case9">
+                <h2>案例 9: 禁用特定项 (Disabled Items)</h2>
+                <p class="desc">某些导航项被禁用，无法点击</p>
+                <div class="demoBox">
+                    <sl-nav kwc:external mode="inline" style="width: 200px;">
+                        <sl-nav-item kwc:external item-key="home" data-name="首页" data-key="home" onclick={handleItemClick}>首页</sl-nav-item>
+                        <sl-nav-item kwc:external item-key="products" disabled>产品（禁用）</sl-nav-item>
+                        <sl-nav-item kwc:external item-key="services" data-name="服务" data-key="services" onclick={handleItemClick}>服务</sl-nav-item>
+                        <sl-nav-item kwc:external item-key="about" disabled>关于（禁用）</sl-nav-item>
+                    </sl-nav>
+                </div>
+            </section>
+
+            <!-- 案例 10: 深色主题导航 -->
+            <section class="section section-case10">
+                <h2>案例 10: 深色主题 (Dark Theme)</h2>
+                <p class="desc">深色主题样式的导航</p>
+                <div class="demoBox darkBox">
+                    <sl-nav kwc:external mode="inline" theme="dark" style="width: 200px;">
+                        <sl-nav-item kwc:external item-key="home" data-name="首页" data-key="home" onclick={handleItemClick}>
+                            <sl-icon kwc:external slot="prefix" name="house"></sl-icon>
+                            首页
+                        </sl-nav-item>
+                        <sl-nav-item kwc:external item-key="products" data-name="产品" data-key="products" onclick={handleItemClick}>
+                            <sl-icon kwc:external slot="prefix" name="box"></sl-icon>
+                            产品
+                        </sl-nav-item>
+                        <sl-nav-submenu kwc:external title="服务">
+                            <sl-icon kwc:external slot="prefix" name="gear"></sl-icon>
+                            <sl-nav-item kwc:external item-key="consulting" data-name="咨询" data-key="consulting" onclick={handleItemClick}>咨询</sl-nav-item>
+                            <sl-nav-item kwc:external item-key="support" data-name="支持" data-key="support" onclick={handleItemClick}>支持</sl-nav-item>
+                        </sl-nav-submenu>
+                        <sl-nav-item kwc:external item-key="about" data-name="关于" data-key="about" onclick={handleItemClick}>
+                            <sl-icon kwc:external slot="prefix" name="info-circle"></sl-icon>
+                            关于
+                        </sl-nav-item>
+                    </sl-nav>
+                </div>
+            </section>
+
+            <!-- 案例 11: 事件处理导航 -->
+            <section class="section section-case11">
+                <h2>案例 11: 事件处理 (Event Handling)</h2>
+                <p class="desc">监听导航的各种事件（查看控制台输出）</p>
+                <div class="demoBox">
+                    <sl-nav kwc:external class="nav-case11" mode="inline" style="width: 200px;">
+                        <sl-nav-item kwc:external item-key="home" data-name="首页" data-key="home" onclick={handleItemClick}>首页</sl-nav-item>
+                        <sl-nav-submenu kwc:external title="产品">
+                            <sl-nav-item kwc:external item-key="product1" data-name="产品 A" data-key="product1" onclick={handleItemClick}>产品 A</sl-nav-item>
+                            <sl-nav-item kwc:external item-key="product2" data-name="产品 B" data-key="product2" onclick={handleItemClick}>产品 B</sl-nav-item>
+                        </sl-nav-submenu>
+                        <sl-nav-item kwc:external item-key="services" data-name="服务" data-key="services" onclick={handleItemClick}>服务</sl-nav-item>
+                        <sl-nav-item kwc:external item-key="about" data-name="关于" data-key="about" onclick={handleItemClick}>关于</sl-nav-item>
+                    </sl-nav>
+                </div>
+            </section>
+
+            <!-- 案例 12: 功能组合案例 -->
+            <section class="section section-case12 fullWidthSection">
+                <h2>案例 12: 功能组合案例（属性开关）</h2>
+                <p class="desc">通过下方控制面板调整导航的各项属性，实时预览效果</p>
+
+                <!-- 控制面板 -->
+                <div class="controlPanel">
+                    <h3>属性控制面板</h3>
+                    <div class="controls">
+                        <div class="controlItem">
+                            <label>模式 (Mode):</label>
+                            <sl-radio-group kwc:external class="mode-radio-group" value={navMode}>
+                                <sl-radio kwc:external value="inline">Inline</sl-radio>
+                                <sl-radio kwc:external value="horizontal">Horizontal</sl-radio>
+                                <sl-radio kwc:external value="vertical">Vertical</sl-radio>
+                            </sl-radio-group>
+                        </div>
+
+                        <div class="controlItem">
+                            <label>主题 (Theme):</label>
+                            <sl-radio-group kwc:external class="theme-radio-group" value={navTheme}>
+                                <sl-radio kwc:external value="light">Light</sl-radio>
+                                <sl-radio kwc:external value="dark">Dark</sl-radio>
+                            </sl-radio-group>
+                        </div>
+
+                        <div class="controlItem">
+                            <label>多选 (Multiple):</label>
+                            <sl-switch kwc:external class="multiple-switch" checked={isMultiple}>
+                                {multipleLabel}
+                            </sl-switch>
+                        </div>
+
+                        <div class="controlItem">
+                            <label>可选择 (Selectable):</label>
+                            <sl-switch kwc:external class="selectable-switch" checked={isSelectable}>
+                                {selectableLabel}
+                            </sl-switch>
+                        </div>
+
+                        <template if:true={isInlineMode}>
+                            <div class="controlItem">
+                                <label>内联折叠 (Inline Collapsed):</label>
+                                <sl-switch kwc:external class="collapsed-switch" checked={isInlineCollapsed}>
+                                    {collapsedLabel}
+                                </sl-switch>
+                            </div>
+                        </template>
+
+                        <template if:true={showInlineIndent}>
+                            <div class="controlItem">
+                                <label>{inlineIndentLabel}</label>
+                                <sl-input kwc:external class="indent-input" type="number" value={inlineIndent} style="width: 100px;"></sl-input>
+                            </div>
+                        </template>
+
+                        <div class="controlItem">
+                            <label>{openDelayLabel}</label>
+                            <sl-input kwc:external class="open-delay-input" type="number" step="0.1" value={subMenuOpenDelay} style="width: 100px;"></sl-input>
+                        </div>
+
+                        <div class="controlItem">
+                            <label>{closeDelayLabel}</label>
+                            <sl-input kwc:external class="close-delay-input" type="number" step="0.1" value={subMenuCloseDelay} style="width: 100px;"></sl-input>
+                        </div>
+
+                        <div class="controlItem">
+                            <label>触发方式:</label>
+                            <sl-radio-group kwc:external class="trigger-radio-group" value={triggerSubMenuAction}>
+                                <sl-radio kwc:external value="hover">悬停 (Hover)</sl-radio>
+                                <sl-radio kwc:external value="click">点击 (Click)</sl-radio>
+                            </sl-radio-group>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 预览区域 -->
+                <div class={demoBoxClass}>
+                    <sl-nav kwc:external
+                        class="nav-case12"
+                        mode={navMode}
+                        theme={navTheme}
+                        multiple={isMultiple}
+                        selectable={isSelectable}
+                        inline-collapsed={isInlineCollapsed}
+                        inline-indent={inlineIndent}
+                        sub-menu-open-delay={subMenuOpenDelay}
+                        sub-menu-close-delay={subMenuCloseDelay}
+                        trigger-sub-menu-action={triggerSubMenuAction}
+                        style={case12NavStyle}
+                    >
+                        <sl-nav-item kwc:external item-key="home" title="首页" data-name="首页" data-key="home" onclick={handleItemClick}>
+                            <sl-icon kwc:external slot="prefix" name="house"></sl-icon>
+                            <template if:true={isNotCollapsed}>首页</template>
+                        </sl-nav-item>
+                        <sl-nav-submenu kwc:external title="产品中心">
+                            <sl-icon kwc:external slot="prefix" name="box"></sl-icon>
+                            <template if:true={isNotCollapsed}>产品中心</template>
+                            <sl-nav-item kwc:external item-key="product1" data-name="产品 A" data-key="product1" onclick={handleItemClick}>产品 A</sl-nav-item>
+                            <sl-nav-item kwc:external item-key="product2" data-name="产品 B" data-key="product2" onclick={handleItemClick}>产品 B</sl-nav-item>
+                            <sl-nav-submenu kwc:external title="子分类">
+                                <sl-nav-item kwc:external item-key="sub1" data-name="子项 1" data-key="sub1" onclick={handleItemClick}>子项 1</sl-nav-item>
+                                <sl-nav-item kwc:external item-key="sub2" data-name="子项 2" data-key="sub2" onclick={handleItemClick}>子项 2</sl-nav-item>
+                            </sl-nav-submenu>
+                        </sl-nav-submenu>
+                        <sl-nav-submenu kwc:external title="服务支持">
+                            <sl-icon kwc:external slot="prefix" name="gear"></sl-icon>
+                            <template if:true={isNotCollapsed}>服务支持</template>
+                            <sl-nav-item kwc:external item-key="consulting" data-name="咨询服务" data-key="consulting" onclick={handleItemClick}>咨询服务</sl-nav-item>
+                            <sl-nav-item kwc:external item-key="training" data-name="培训服务" data-key="training" onclick={handleItemClick}>培训服务</sl-nav-item>
+                            <sl-nav-item kwc:external item-key="support" disabled>技术支持（禁用）</sl-nav-item>
+                        </sl-nav-submenu>
+                        <sl-nav-item kwc:external item-key="about" title="关于我们" data-name="关于我们" data-key="about" onclick={handleItemClick}>
+                            <sl-icon kwc:external slot="prefix" name="info-circle"></sl-icon>
+                            <template if:true={isNotCollapsed}>关于我们</template>
+                        </sl-nav-item>
+                        <sl-nav-item kwc:external item-key="contact" title="联系我们" data-name="联系我们" data-key="contact" onclick={handleItemClick}>
+                            <sl-icon kwc:external slot="prefix" name="envelope"></sl-icon>
+                            <template if:true={isNotCollapsed}>联系我们</template>
+                        </sl-nav-item>
+                    </sl-nav>
+                </div>
+
+                <!-- 当前配置显示 -->
+                <div class="configDisplay">
+                    <h4>当前配置:</h4>
+                    <pre>{currentConfig}</pre>
+                </div>
+            </section>
+        </main>
+    </div>
+</template>

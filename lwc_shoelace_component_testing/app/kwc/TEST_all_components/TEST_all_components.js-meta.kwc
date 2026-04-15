@@ -1,0 +1,10 @@
+{
+    "apiVersion": "1.0.0",
+    "isExposed": true,
+    "framework": "lwc",
+    "targets": {
+        "kwc__page": {
+            "enabled": true
+        }
+    }
+}

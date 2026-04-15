@@ -1,0 +1,210 @@
+.container {
+    padding: var(--sl-spacing-large);
+    max-width: 900px;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    gap: var(--sl-spacing-small);
+    font-size: var(--sl-font-size-2x-large);
+    color: var(--sl-color-neutral-900);
+    margin-bottom: var(--sl-spacing-medium);
+
+    sl-icon {
+        color: var(--sl-color-primary-600);
+    }
+}
+
+.description {
+    color: var(--sl-color-neutral-600);
+    font-size: var(--sl-font-size-medium);
+    line-height: 1.6;
+    margin-bottom: var(--sl-spacing-medium);
+
+    code {
+        background: var(--sl-color-neutral-100);
+        padding: var(--sl-spacing-2x-small) var(--sl-spacing-x-small);
+        border-radius: var(--sl-border-radius-small);
+        color: var(--sl-color-primary-700);
+        font-family: var(--sl-font-mono);
+    }
+}
+
+.configSection {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sl-spacing-large);
+    margin: var(--sl-spacing-large) 0;
+}
+
+.configCard {
+    &::part(base) {
+        border: 1px solid var(--sl-color-neutral-200);
+    }
+
+    &::part(header) {
+        background: var(--sl-color-neutral-50);
+        padding: var(--sl-spacing-medium);
+    }
+
+    &::part(body) {
+        padding: var(--sl-spacing-medium);
+    }
+}
+
+.cardHeader {
+    display: flex;
+    align-items: center;
+    gap: var(--sl-spacing-small);
+    font-weight: var(--sl-font-weight-semibold);
+    color: var(--sl-color-neutral-800);
+
+    sl-icon {
+        color: var(--sl-color-primary-600);
+    }
+}
+
+.formGroup {
+    margin-bottom: var(--sl-spacing-medium);
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    label {
+        display: block;
+        font-size: var(--sl-font-size-small);
+        font-weight: var(--sl-font-weight-semibold);
+        color: var(--sl-color-neutral-700);
+        margin-bottom: var(--sl-spacing-x-small);
+    }
+
+    sl-input, sl-select {
+        width: 100%;
+    }
+}
+
+.hint {
+    display: block;
+    font-size: var(--sl-font-size-x-small);
+    color: var(--sl-color-neutral-500);
+    margin-top: var(--sl-spacing-2x-small);
+}
+
+.actionSection {
+    display: flex;
+    justify-content: center;
+    padding: var(--sl-spacing-large) 0;
+}
+
+.codeCard {
+    margin-top: var(--sl-spacing-large);
+
+    &::part(base) {
+        border: 1px solid var(--sl-color-neutral-200);
+    }
+
+    &::part(header) {
+        background: var(--sl-color-neutral-800);
+        padding: var(--sl-spacing-medium);
+    }
+
+    &::part(body) {
+        padding: 0;
+    }
+
+    .cardHeader {
+        color: var(--sl-color-neutral-0);
+
+        sl-icon {
+            color: var(--sl-color-success-400);
+        }
+    }
+}
+
+.codeBlock {
+    margin: 0;
+    padding: var(--sl-spacing-medium);
+    background: var(--sl-color-neutral-900);
+    color: var(--sl-color-neutral-100);
+    font-family: var(--sl-font-mono);
+    font-size: var(--sl-font-size-small);
+    line-height: 1.6;
+    overflow-x: auto;
+    white-space: pre;
+}
+
+.apiCard {
+    margin-top: var(--sl-spacing-large);
+
+    &::part(base) {
+        border: 1px solid var(--sl-color-neutral-200);
+    }
+
+    &::part(header) {
+        background: var(--sl-color-primary-50);
+        padding: var(--sl-spacing-medium);
+    }
+
+    &::part(body) {
+        padding: var(--sl-spacing-medium);
+    }
+
+    .cardHeader {
+        sl-icon {
+            color: var(--sl-color-primary-600);
+        }
+    }
+}
+
+.apiContent {
+    h4 {
+        font-family: var(--sl-font-mono);
+        font-size: var(--sl-font-size-medium);
+        color: var(--sl-color-neutral-800);
+        margin-bottom: var(--sl-spacing-medium);
+        padding: var(--sl-spacing-small);
+        background: var(--sl-color-neutral-100);
+        border-radius: var(--sl-border-radius-medium);
+    }
+}
+
+.apiTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--sl-font-size-small);
+
+    th, td {
+        padding: var(--sl-spacing-small) var(--sl-spacing-medium);
+        text-align: left;
+        border: 1px solid var(--sl-color-neutral-200);
+    }
+
+    th {
+        background: var(--sl-color-neutral-100);
+        font-weight: var(--sl-font-weight-semibold);
+        color: var(--sl-color-neutral-700);
+    }
+
+    td {
+        color: var(--sl-color-neutral-600);
+
+        &:first-child {
+            font-weight: var(--sl-font-weight-semibold);
+            color: var(--sl-color-primary-700);
+            background: var(--sl-color-primary-50);
+        }
+
+        &:nth-child(2) {
+            font-family: var(--sl-font-mono);
+            color: var(--sl-color-neutral-800);
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .configSection {
+        grid-template-columns: 1fr;
+    }
+}

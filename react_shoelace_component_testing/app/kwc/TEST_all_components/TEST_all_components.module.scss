@@ -1,0 +1,273 @@
+// 页面整体布局 - 顶部bar + 下方左右分栏
+.pageWrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #f5f5f5;
+    overflow: hidden;
+}
+
+// 顶部标题栏
+.header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 16px 32px;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    flex-shrink: 0;
+    z-index: 10;
+}
+
+.headerContent {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0 0 4px 0;
+
+    .titleIcon {
+        font-size: 26px;
+    }
+}
+
+.subtitle {
+    font-size: 13px;
+    margin: 0;
+    opacity: 0.85;
+}
+
+// 内容区容器 - 左右分栏
+.contentWrapper {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+// 左侧菜单栏
+.sidebar {
+    width: 240px;
+    min-width: 240px;
+    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+}
+
+.navMenu {
+    flex: 1;
+    padding: 8px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+// 菜单组（包含一级和二级菜单）
+.menuGroup {
+    margin-bottom: 4px;
+}
+
+// 一级菜单项
+.menuItem {
+    display: flex;
+    align-items: center;
+    padding: 14px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .menuIcon {
+        font-size: 18px;
+        margin-right: 12px;
+        color: #ffd700;
+    }
+
+    .menuLabel {
+        flex: 1;
+    }
+
+    .menuArrow {
+        font-size: 14px;
+        opacity: 0.6;
+        transition: transform 0.3s ease;
+    }
+}
+
+.menuItemExpanded {
+    background: rgba(255, 255, 255, 0.08);
+    border-left: 3px solid #667eea;
+
+    .menuArrow {
+        opacity: 1;
+    }
+}
+
+// 二级菜单
+.subMenu {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 4px 0;
+    animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.subMenuItem {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px 10px 44px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.75);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+
+    &:hover {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.08);
+    }
+
+    .subMenuDot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        margin-right: 12px;
+        transition: all 0.2s ease;
+    }
+
+    .comingSoon {
+        margin-left: auto;
+        font-size: 10px;
+        padding: 2px 6px;
+        background: rgba(255, 152, 0, 0.3);
+        color: #ffb74d;
+        border-radius: 4px;
+    }
+
+    .externalIcon {
+        margin-left: auto;
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.5);
+    }
+}
+
+.subMenuItemActive {
+    color: #fff;
+    background: linear-gradient(90deg, rgba(102, 126, 234, 0.5) 0%, rgba(118, 75, 162, 0.3) 100%);
+
+    .subMenuDot {
+        background: #ffd700;
+        box-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+    }
+}
+
+// 右侧主内容区
+.mainContent {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-color: #f5f5f5;
+}
+
+// 空状态
+.emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    min-height: 400px;
+    color: #999;
+
+    .emptyIcon {
+        font-size: 72px;
+        margin-bottom: 20px;
+        opacity: 0.4;
+        color: #667eea;
+    }
+
+    .emptyTitle {
+        font-size: 20px;
+        font-weight: 500;
+        color: #666;
+        margin: 0 0 8px 0;
+    }
+
+    .emptyDesc {
+        font-size: 14px;
+        color: #999;
+        margin: 0;
+    }
+}
+
+// 响应式适配
+@media (max-width: 1024px) {
+    .sidebar {
+        width: 200px;
+        min-width: 200px;
+    }
+
+    .menuItem {
+        padding: 12px 14px;
+        font-size: 13px;
+
+        .menuIcon {
+            font-size: 16px;
+            margin-right: 10px;
+        }
+    }
+
+    .subMenuItem {
+        padding: 8px 14px 8px 38px;
+        font-size: 12px;
+    }
+
+    .header {
+        padding: 14px 24px;
+    }
+
+    .title {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 768px) {
+    .contentWrapper {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        min-width: 100%;
+        max-height: 50vh;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .mainContent {
+        flex: 1;
+        min-height: calc(100vh - 200px);
+    }
+}

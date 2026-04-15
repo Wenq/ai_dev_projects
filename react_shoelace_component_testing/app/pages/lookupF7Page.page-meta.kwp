@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Page>
+    <name>kdtest_lookupF7Page</name>
+    <masterLabel>F7 Lookup 基础资料选择器</masterLabel>
+    <template>oneregion</template>
+    <isv>kdtest</isv>
+    <app>kdtest_kwc_wenq</app>
+    <version>2</version>
+    <regions>
+        <region>
+            <name>region1</name>
+            <controls>
+                <control>
+                    <type>TEST_sl_lookupF7</type>
+                    <name>lookupF7Instance</name>
+                </control>
+            </controls>
+        </region>
+    </regions>
+</Page>

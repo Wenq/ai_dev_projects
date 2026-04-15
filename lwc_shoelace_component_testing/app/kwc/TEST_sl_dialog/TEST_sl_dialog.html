@@ -1,0 +1,408 @@
+<template>
+    <div class="page-wrapper">
+        <!-- 侧边书签导航 -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <sl-icon kwc:external name="bookmark-star" class="sidebar-icon"></sl-icon>
+                <span>案例导航</span>
+            </div>
+            <nav class="bookmark-nav">
+                <template for:each={bookmarks} for:item="bookmark">
+                    <button 
+                        key={bookmark.id}
+                        class="bookmark-item"
+                        data-id={bookmark.id}
+                        data-active={bookmark.isActive}
+                        onclick={handleBookmarkClick}
+                    >
+                        <sl-icon kwc:external name={bookmark.icon}></sl-icon>
+                        <span>{bookmark.label}</span>
+                    </button>
+                </template>
+            </nav>
+        </aside>
+
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <h1 class="title">Shoelace Dialog 对话框组件示例</h1>
+
+            <!-- 案例 1: 基础对话框 -->
+            <section class="section case1">
+                <h2>案例 1: 基础对话框</h2>
+                <p class="desc">最基本的对话框用法，包含标题和内容</p>
+                <div class="demo-box">
+                    <sl-button kwc:external variant="primary" onclick={openBasicDialog}>
+                        打开基础对话框
+                    </sl-button>
+
+                    <sl-dialog kwc:external class="basic-dialog" label="基础对话框">
+                        这是一个基础对话框的内容。
+                        <br></br>
+                        <br></br>
+                        对话框（Dialog）用于向用户展示重要信息或请求用户输入。
+                        <sl-button kwc:external slot="footer" variant="primary" onclick={closeBasicDialog}>
+                            关闭
+                        </sl-button>
+                    </sl-dialog>
+                </div>
+            </section>
+
+            <!-- 案例 2: 自定义标题 -->
+            <section class="section case2">
+                <h2>案例 2: 自定义标题（带图标）</h2>
+                <p class="desc">使用 slot="label" 自定义标题内容，添加图标等</p>
+                <div class="demo-box">
+                    <sl-button kwc:external variant="primary" onclick={openHeaderDialog}>
+                        打开自定义标题对话框
+                    </sl-button>
+
+                    <sl-dialog kwc:external class="header-dialog">
+                        <div slot="label" class="custom-header">
+                            <sl-icon kwc:external name="info-circle" class="header-icon"></sl-icon>
+                            <span>系统提示</span>
+                        </div>
+                        这是一个带有自定义标题的对话框，标题区域可以包含图标、样式等自定义内容。
+                        <sl-button kwc:external slot="footer" variant="primary" onclick={closeHeaderDialog}>
+                            我知道了
+                        </sl-button>
+                    </sl-dialog>
+                </div>
+            </section>
+
+            <!-- 案例 3: 自定义底部 -->
+            <section class="section case3">
+                <h2>案例 3: 自定义底部按钮</h2>
+                <p class="desc">使用 slot="footer" 自定义底部操作按钮</p>
+                <div class="demo-box">
+                    <sl-button kwc:external variant="primary" onclick={openFooterDialog}>
+                        打开自定义底部对话框
+                    </sl-button>
+
+                    <sl-dialog kwc:external class="footer-dialog" label="自定义底部">
+                        这个对话框有多个操作按钮，您可以根据需要进行选择。
+                        <div slot="footer" class="footer-buttons">
+                            <sl-button kwc:external variant="default" onclick={closeFooterDialog}>
+                                取消
+                            </sl-button>
+                            <sl-button kwc:external variant="warning" onclick={handleFooterLater}>
+                                稍后处理
+                            </sl-button>
+                            <sl-button kwc:external variant="primary" onclick={handleFooterSave}>
+                                保存
+                            </sl-button>
+                        </div>
+                    </sl-dialog>
+                </div>
+            </section>
+
+            <!-- 案例 4: 无标题对话框 -->
+            <section class="section case4">
+                <h2>案例 4: 无标题对话框</h2>
+                <p class="desc">使用 no-header 属性隐藏标题栏</p>
+                <div class="demo-box">
+                    <sl-button kwc:external variant="primary" onclick={openNoHeaderDialog}>
+                        打开无标题对话框
+                    </sl-button>
+
+                    <sl-dialog kwc:external class="no-header-dialog" no-header>
+                        <div class="no-header-content">
+                            <sl-icon kwc:external name="check-circle" class="success-icon"></sl-icon>
+                            <h3>操作成功！</h3>
+                            <p>您的操作已经成功完成。</p>
+                            <sl-button kwc:external variant="primary" onclick={closeNoHeaderDialog}>
+                                确定
+                            </sl-button>
+                        </div>
+                    </sl-dialog>
+                </div>
+            </section>
+
+            <!-- 案例 5: 表单对话框 -->
+            <section class="section case5">
+                <h2>案例 5: 表单对话框</h2>
+                <p class="desc">在对话框中嵌入表单进行数据输入</p>
+                <div class="demo-box">
+                    <sl-button kwc:external variant="primary" onclick={openFormDialog}>
+                        打开表单对话框
+                    </sl-button>
+
+                    <sl-dialog kwc:external class="form-dialog" label="联系我们">
+                        <div class="form-container">
+                            <div class="form-item">
+                                <label>姓名</label>
+                                <sl-input kwc:external 
+                                    class="form-name-input"
+                                    placeholder="请输入您的姓名"
+                                    value={formData.name}
+                                ></sl-input>
+                            </div>
+                            <div class="form-item">
+                                <label>邮箱</label>
+                                <sl-input kwc:external 
+                                    class="form-email-input"
+                                    type="email"
+                                    placeholder="请输入您的邮箱"
+                                    value={formData.email}
+                                ></sl-input>
+                            </div>
+                            <div class="form-item">
+                                <label>留言</label>
+                                <sl-textarea kwc:external 
+                                    class="form-message-input"
+                                    placeholder="请输入您的留言"
+                                    rows="3"
+                                    value={formData.message}
+                                ></sl-textarea>
+                            </div>
+                        </div>
+                        <div slot="footer" class="footer-buttons">
+                            <sl-button kwc:external variant="default" onclick={closeFormDialog}>
+                                取消
+                            </sl-button>
+                            <sl-button kwc:external variant="primary" onclick={handleFormSubmit}>
+                                提交
+                            </sl-button>
+                        </div>
+                    </sl-dialog>
+                </div>
+            </section>
+
+            <!-- 案例 6: 嵌套对话框 -->
+            <section class="section case6">
+                <h2>案例 6: 嵌套对话框</h2>
+                <p class="desc">在对话框内打开另一个对话框</p>
+                <div class="demo-box">
+                    <sl-button kwc:external variant="primary" onclick={openNestedDialog}>
+                        打开外层对话框
+                    </sl-button>
+
+                    <sl-dialog kwc:external class="nested-dialog" label="外层对话框">
+                        这是外层对话框的内容。点击下方按钮可以打开内层对话框。
+                        <br></br>
+                        <br></br>
+                        <sl-button kwc:external variant="warning" onclick={openInnerDialog}>
+                            打开内层对话框
+                        </sl-button>
+
+                        <sl-dialog kwc:external class="inner-dialog" label="内层对话框">
+                            这是内层对话框的内容。
+                            <sl-button kwc:external slot="footer" variant="primary" onclick={closeInnerDialog}>
+                                关闭内层
+                            </sl-button>
+                        </sl-dialog>
+
+                        <sl-button kwc:external slot="footer" variant="primary" onclick={closeNestedDialog}>
+                            关闭外层
+                        </sl-button>
+                    </sl-dialog>
+                </div>
+            </section>
+
+            <!-- 案例 7: 确认对话框 -->
+            <section class="section case7">
+                <h2>案例 7: 确认对话框</h2>
+                <p class="desc">常用于删除确认等操作</p>
+                <div class="demo-box">
+                    <sl-button kwc:external variant="danger" onclick={openConfirmDialog}>
+                        <sl-icon kwc:external slot="prefix" name="trash"></sl-icon>
+                        删除项目
+                    </sl-button>
+
+                    <sl-dialog kwc:external class="confirm-dialog" label="确认删除">
+                        <div class="confirm-content">
+                            <sl-icon kwc:external name="exclamation-triangle" class="warning-icon"></sl-icon>
+                            <p>您确定要删除此项目吗？此操作不可撤销。</p>
+                        </div>
+                        <div slot="footer" class="footer-buttons">
+                            <sl-button kwc:external variant="default" onclick={closeConfirmDialog}>
+                                取消
+                            </sl-button>
+                            <sl-button kwc:external variant="danger" onclick={handleConfirm}>
+                                确认删除
+                            </sl-button>
+                        </div>
+                    </sl-dialog>
+                </div>
+            </section>
+
+            <!-- 案例 8: 自定义宽度 -->
+            <section class="section case8">
+                <h2>案例 8: 自定义宽度</h2>
+                <p class="desc">通过 CSS 变量自定义对话框宽度</p>
+                <div class="demo-box">
+                    <sl-button kwc:external variant="primary" onclick={openCustomWidthDialog}>
+                        打开宽对话框
+                    </sl-button>
+
+                    <sl-dialog kwc:external class="custom-width-dialog" label="自定义宽度对话框">
+                        <div class="wide-content">
+                            <p>这是一个自定义宽度的对话框，使用 CSS 变量 --width 和 --max-width 来控制宽度。</p>
+                            <div class="wide-grid">
+                                <div class="grid-item">
+                                    <sl-icon kwc:external name="folder" class="grid-icon"></sl-icon>
+                                    <span>文件夹</span>
+                                </div>
+                                <div class="grid-item">
+                                    <sl-icon kwc:external name="file-earmark" class="grid-icon"></sl-icon>
+                                    <span>文档</span>
+                                </div>
+                                <div class="grid-item">
+                                    <sl-icon kwc:external name="image" class="grid-icon"></sl-icon>
+                                    <span>图片</span>
+                                </div>
+                                <div class="grid-item">
+                                    <sl-icon kwc:external name="music-note" class="grid-icon"></sl-icon>
+                                    <span>音频</span>
+                                </div>
+                                <div class="grid-item">
+                                    <sl-icon kwc:external name="camera-video" class="grid-icon"></sl-icon>
+                                    <span>视频</span>
+                                </div>
+                                <div class="grid-item">
+                                    <sl-icon kwc:external name="archive" class="grid-icon"></sl-icon>
+                                    <span>压缩包</span>
+                                </div>
+                            </div>
+                        </div>
+                        <sl-button kwc:external slot="footer" variant="primary" onclick={closeCustomWidthDialog}>
+                            关闭
+                        </sl-button>
+                    </sl-dialog>
+                </div>
+            </section>
+
+            <!-- 案例 9: 阻止关闭 -->
+            <section class="section case9">
+                <h2>案例 9: 阻止关闭（需确认）</h2>
+                <p class="desc">通过 sl-request-close 事件阻止对话框关闭</p>
+                <div class="demo-box">
+                    <sl-button kwc:external variant="primary" onclick={openPreventCloseDialog}>
+                        打开需确认关闭的对话框
+                    </sl-button>
+
+                    <sl-dialog kwc:external class="prevent-close-dialog" label="重要提示">
+                        <p>此对话框不能通过点击遮罩层或按 ESC 键关闭。</p>
+                        <p>您必须点击下方的"我已阅读"按钮来关闭它。</p>
+                        <sl-button kwc:external slot="footer" variant="primary" onclick={closePreventCloseDialog}>
+                            我已阅读
+                        </sl-button>
+                    </sl-dialog>
+                </div>
+            </section>
+
+            <!-- 案例 10: 事件处理 -->
+            <section class="section case10">
+                <h2>案例 10: 事件处理</h2>
+                <p class="desc">监听对话框的各种事件（查看下方日志）</p>
+                <div class="demo-box">
+                    <sl-button kwc:external variant="primary" onclick={openEventDialog}>
+                        打开事件测试对话框
+                    </sl-button>
+
+                    <sl-dialog kwc:external class="event-dialog" label="事件测试">
+                        尝试通过不同方式关闭对话框（点击遮罩、按 ESC、点击关闭按钮），观察事件日志的变化。
+                        <sl-button kwc:external slot="footer" variant="primary" onclick={closeEventDialog}>
+                            关闭
+                        </sl-button>
+                    </sl-dialog>
+
+                    <!-- 事件日志显示 -->
+                    <div class="event-log">
+                        <h4>事件日志：</h4>
+                        <div class="log-content">
+                            <template if:false={hasEventLogs}>
+                                <p class="no-log">暂无事件记录，请打开对话框进行测试</p>
+                            </template>
+                            <template if:true={hasEventLogs}>
+                                <template for:each={eventLogs} for:item="log" for:index="index">
+                                    <div key={index} class="log-item">{log}</div>
+                                </template>
+                            </template>
+                        </div>
+                        <template if:true={hasEventLogs}>
+                            <sl-button kwc:external size="small" onclick={clearEventLogs}>
+                                清除日志
+                            </sl-button>
+                        </template>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 案例 11: 滚动内容 -->
+            <section class="section case11">
+                <h2>案例 11: 滚动内容</h2>
+                <p class="desc">当内容超出对话框高度时自动显示滚动条</p>
+                <div class="demo-box">
+                    <sl-button kwc:external variant="primary" onclick={openScrollDialog}>
+                        打开长内容对话框
+                    </sl-button>
+
+                    <sl-dialog kwc:external class="scroll-dialog" label="服务条款">
+                        <div class="scroll-content">
+                            <h3>第一章 总则</h3>
+                            <p>欢迎使用本服务。请仔细阅读以下条款，使用本服务即表示您同意遵守这些条款。</p>
+                            
+                            <h3>第二章 用户注册</h3>
+                            <p>用户在使用本服务前需要注册账号。注册时应提供真实、准确、完整的个人信息。</p>
+                            <p>用户应妥善保管账号和密码，因账号密码泄露造成的损失由用户自行承担。</p>
+                            
+                            <h3>第三章 服务内容</h3>
+                            <p>本服务提供的具体内容以实际提供的为准。我们保留随时修改服务内容的权利。</p>
+                            <p>服务可能因系统维护、升级等原因暂时中断，我们会尽量提前通知用户。</p>
+                            
+                            <h3>第四章 用户行为规范</h3>
+                            <p>用户在使用本服务时，应遵守相关法律法规，不得利用本服务从事违法活动。</p>
+                            <p>用户不得发布违法、违规、侵权等不良信息。</p>
+                            
+                            <h3>第五章 知识产权</h3>
+                            <p>本服务中的所有内容，包括但不限于文字、图片、音频、视频、软件等，其知识产权归我们所有。</p>
+                            
+                            <h3>第六章 隐私保护</h3>
+                            <p>我们重视用户隐私保护，会依法保护用户个人信息。详细内容请参阅隐私政策。</p>
+                            
+                            <h3>第七章 免责声明</h3>
+                            <p>对于因不可抗力或非我们原因造成的服务中断或数据丢失，我们不承担责任。</p>
+                            
+                            <h3>第八章 条款修改</h3>
+                            <p>我们保留修改本条款的权利，修改后的条款将在本页面公布。</p>
+                        </div>
+                        <div slot="footer" class="footer-buttons">
+                            <sl-button kwc:external variant="default" onclick={closeScrollDialog}>
+                                不同意
+                            </sl-button>
+                            <sl-button kwc:external variant="primary" onclick={handleScrollAgree}>
+                                同意并继续
+                            </sl-button>
+                        </div>
+                    </sl-dialog>
+                </div>
+            </section>
+
+            <!-- 案例 12: 禁用遮罩关闭 -->
+            <section class="section case12">
+                <h2>案例 12: 禁用遮罩关闭 (maskClosable)</h2>
+                <p class="desc">通过 sl-request-close 事件阻止点击遮罩关闭对话框</p>
+                <div class="demo-box">
+                    <sl-button kwc:external variant="primary" onclick={openMaskClosableDialog}>
+                        打开禁用遮罩关闭的对话框
+                    </sl-button>
+
+                    <sl-dialog kwc:external class="mask-closable-dialog" label="禁用遮罩关闭">
+                        <div class="confirm-content">
+                            <sl-icon kwc:external name="shield-x" class="info-icon"></sl-icon>
+                            <div>
+                                <p><strong>禁用遮罩关闭</strong></p>
+                                <p>此对话框通过 sl-request-close 事件阻止点击遮罩关闭。</p>
+                                <p>点击遮罩层（对话框外部区域）不会关闭对话框，只能通过点击关闭按钮或按 ESC 键关闭。</p>
+                            </div>
+                        </div>
+                        <sl-button kwc:external slot="footer" variant="primary" onclick={closeMaskClosableDialog}>
+                            关闭对话框
+                        </sl-button>
+                    </sl-dialog>
+                </div>
+            </section>
+
+        </main>
+    </div>
+</template>

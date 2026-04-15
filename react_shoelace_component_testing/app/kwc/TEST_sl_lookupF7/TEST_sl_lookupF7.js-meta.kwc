@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<KingdeeComponentBundle
+    xmlns="http://dev.kingdee.com/2025/10/metadata"
+>
+    <version></version>
+    <name>TEST_sl_lookupF7</name>
+    <masterLabel>TEST_sl_lookupF7</masterLabel>
+    <isv>kdtest</isv>
+    <app>kdtest_kwc_wenq</app>
+    <framework>react</framework>
+    <targets>
+        <target>KWCFormModel</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig>
+          <targets>KWCFormModel</targets>
+        </targetConfig>
+    </targetConfigs>
+</KingdeeComponentBundle>

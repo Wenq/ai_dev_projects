@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Controller>
+    <name>SalesOrderDashboardController</name>
+    <isv>kdtest</isv>
+    <app>kdtest_kwc_wenq</app>
+    <version>10</version>
+    <url>/kdtest/kdtest_kwc_wenq/salesDashboard</url>
+    <scriptFile>SalesOrderDashboardController.ts</scriptFile>
+    <methods>
+        <method>
+            <name>getStatusSummary</name>
+            <url>/statusSummary</url>
+            <httpMethod>GET</httpMethod>
+            <permission>
+                <permission>
+                    <permitAll>true</permitAll>
+                </permission>
+            </permission>
+        </method>
+        <method>
+            <name>getSalesTrend</name>
+            <url>/salesTrend</url>
+            <httpMethod>GET</httpMethod>
+            <permission>
+                <permission>
+                    <permitAll>true</permitAll>
+                </permission>
+            </permission>
+        </method>
+    </methods>
+</Controller>

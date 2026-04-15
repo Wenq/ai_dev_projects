@@ -1,0 +1,45 @@
+{
+  "name": "kwc-react-component-template",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "node scripts/build.js",
+    "build:frontend": "node scripts/buildFrontend.js",
+    "build:controller": "node scripts/buildController.js",
+    "server": "node server.js",
+    "debug": "node scripts/buildFrontend.js --watch",
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "check-updates": "node scripts/check-npm-updates.js"
+  },
+  "peerDependencies": {
+    "react": "19.2.0",
+    "react-dom": "19.2.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^16.3.1",
+    "@vitejs/plugin-react": "^4.2.0",
+    "chokidar": "^3.5.3",
+    "eslint": "^9.17.0",
+    "eslint-plugin-react": "^7.37.2",
+    "express": "^5.2.1",
+    "globals": "^15.14.0",
+    "jsdom": "^23.0.0",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "sass": "^1.69.0",
+    "vite": "^5.0.0",
+    "vite-plugin-css-injected-by-js": "^3.5.2",
+    "vitest": "^1.2.0",
+    "minimist": "^1.2.8"
+  },
+  "dependencies": {
+    "@kdcloudjs/kwc-shared-utils": "0.x",
+    "@kdcloudjs/shoelace": "^1.0.1"
+  }
+}

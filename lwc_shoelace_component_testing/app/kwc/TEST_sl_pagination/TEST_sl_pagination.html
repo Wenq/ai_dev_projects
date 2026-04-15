@@ -1,0 +1,261 @@
+<template>
+    <div class="pageWrapper">
+        <!-- 侧边书签导航 -->
+        <aside class="sidebar">
+            <div class="sidebarHeader">
+                <sl-icon kwc:external name="bookmark-star" class="sidebarIcon"></sl-icon>
+                <span>案例导航</span>
+            </div>
+            <nav class="bookmarkNav">
+                <template for:each={bookmarks} for:item="bookmark">
+                    <button 
+                        key={bookmark.id}
+                        class={bookmark.bookmarkClass}
+                        data-section={bookmark.id}
+                        onclick={handleBookmarkClick}
+                    >
+                        <sl-icon kwc:external name={bookmark.icon}></sl-icon>
+                        <span>{bookmark.label}</span>
+                    </button>
+                </template>
+            </nav>
+        </aside>
+
+        <!-- 主内容区 -->
+        <main class="mainContent">
+            <h1 class="title">Shoelace Pagination 分页器组件示例</h1>
+
+            <!-- 案例 1: 基础分页器 -->
+            <section class="section case1">
+                <h2>案例 1: 基础分页器</h2>
+                <p class="desc">使用默认配置，总条数默认为 5000，每页 20 条</p>
+                <div class="demoBox">
+                    <sl-pagination kwc:external></sl-pagination>
+                </div>
+            </section>
+
+            <!-- 案例 2: 设置总数据量 -->
+            <section class="section case2">
+                <h2>案例 2: 设置总数据量</h2>
+                <p class="desc">通过 total 属性设置不同的总数据量</p>
+                <div class="demoBox">
+                    <div class="demoGroup">
+                        <div class="demoLabel">total=100</div>
+                        <sl-pagination kwc:external total="100"></sl-pagination>
+                    </div>
+                    <div class="demoGroup">
+                        <div class="demoLabel">total=500</div>
+                        <sl-pagination kwc:external total="500"></sl-pagination>
+                    </div>
+                    <div class="demoGroup">
+                        <div class="demoLabel">total=2000</div>
+                        <sl-pagination kwc:external total="2000"></sl-pagination>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 案例 3: 自定义每页条数 -->
+            <section class="section case3">
+                <h2>案例 3: 自定义每页条数</h2>
+                <p class="desc">通过 page-size 属性设置每页显示的条数</p>
+                <div class="demoBox">
+                    <div class="demoGroup">
+                        <div class="demoLabel">page-size=10（总共 200 条）</div>
+                        <sl-pagination kwc:external total="200" page-size="10"></sl-pagination>
+                    </div>
+                    <div class="demoGroup">
+                        <div class="demoLabel">page-size=50（总共 500 条）</div>
+                        <sl-pagination kwc:external total="500" page-size="50"></sl-pagination>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 案例 4: 自定义每页条数选项 -->
+            <section class="section case4">
+                <h2>案例 4: 自定义每页条数选项</h2>
+                <p class="desc">通过 page-size-opts 属性自定义下拉菜单中的选项</p>
+                <div class="demoBox">
+                    <div class="demoGroup">
+                        <div class="demoLabel">page-size-opts=[25, 50, 100, 200]</div>
+                        <sl-pagination 
+                            kwc:external 
+                            class="pagination-opts-1"
+                            total="1000" 
+                            page-size="25"
+                        ></sl-pagination>
+                    </div>
+                    <div class="demoGroup">
+                        <div class="demoLabel">page-size-opts=[5, 10, 15, 20]</div>
+                        <sl-pagination 
+                            kwc:external
+                            class="pagination-opts-2" 
+                            total="200" 
+                            page-size="5"
+                        ></sl-pagination>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 案例 5: 设置默认页码 -->
+            <section class="section case5">
+                <h2>案例 5: 设置默认页码</h2>
+                <p class="desc">通过 default-current-page 设置初始页码（非受控模式）</p>
+                <div class="demoBox">
+                    <div class="demoGroup">
+                        <div class="demoLabel">default-current-page=5</div>
+                        <sl-pagination kwc:external total="500" default-current-page="5"></sl-pagination>
+                    </div>
+                    <div class="demoGroup">
+                        <div class="demoLabel">default-current-page=10</div>
+                        <sl-pagination kwc:external total="500" default-current-page="10"></sl-pagination>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 案例 6: 受控模式 -->
+            <section class="section case6">
+                <h2>案例 6: 受控模式</h2>
+                <p class="desc">通过 current-page 属性受控，需在 sl-page-change 事件中手动更新</p>
+                <div class="demoBox">
+                    <div class="statusBar">
+                        <span>当前页码: <strong>{controlledPage}</strong></span>
+                        <span>每页条数: <strong>{controlledPageSize}</strong></span>
+                        <span>总条数: <strong>500</strong></span>
+                    </div>
+                    <sl-pagination
+                        kwc:external
+                        class="pagination-controlled"
+                        total="500"
+                    ></sl-pagination>
+                </div>
+            </section>
+
+            <!-- 案例 7: 简洁模式 -->
+            <section class="section case7">
+                <h2>案例 7: 简洁模式</h2>
+                <p class="desc">使用 simple-mode 属性启用简洁模式，隐藏页码输入框和总页数</p>
+                <div class="demoBox">
+                    <div class="demoGroup">
+                        <div class="demoLabel">简洁模式</div>
+                        <sl-pagination kwc:external total="500" simple-mode></sl-pagination>
+                    </div>
+                    <div class="demoGroup">
+                        <div class="demoLabel">标准模式（对比）</div>
+                        <sl-pagination kwc:external total="500"></sl-pagination>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 案例 8: 禁用状态 -->
+            <section class="section case8">
+                <h2>案例 8: 禁用状态</h2>
+                <p class="desc">使用 disabled 属性禁用分页器的所有交互</p>
+                <div class="demoBox">
+                    <div class="demoGroup">
+                        <div class="demoLabel">禁用状态</div>
+                        <sl-pagination kwc:external total="500" disabled></sl-pagination>
+                    </div>
+                    <div class="demoGroup">
+                        <div class="demoLabel">正常状态（对比）</div>
+                        <sl-pagination kwc:external total="500"></sl-pagination>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 案例 9: 事件监听 -->
+            <section class="section case9">
+                <h2>案例 9: 事件监听</h2>
+                <p class="desc">监听 sl-page-change 事件获取页码和每页条数的变化</p>
+                <div class="demoBox">
+                    <sl-pagination
+                        kwc:external
+                        class="pagination-event"
+                        total="1000"
+                    ></sl-pagination>
+
+                    <div class="eventLog">
+                        <h4>事件日志：</h4>
+                        <div class="logContent">
+                            <template if:false={hasEventLogs}>
+                                <p class="noLog">暂无事件记录，请操作分页器</p>
+                            </template>
+                            <template if:true={hasEventLogs}>
+                                <template for:each={eventLogsWithIndex} for:item="item">
+                                    <div key={item.key} class="logItem">{item.log}</div>
+                                </template>
+                            </template>
+                        </div>
+                        <template if:true={hasEventLogs}>
+                            <sl-button kwc:external size="small" class="btn-clear-log">
+                                清除日志
+                            </sl-button>
+                        </template>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 案例 10: 动态更新 -->
+            <section class="section case10">
+                <h2>案例 10: 动态更新</h2>
+                <p class="desc">通过 JavaScript 动态更新分页器的属性</p>
+                <div class="demoBox">
+                    <div class="controlPanel">
+                        <div class="controlRow">
+                            <span>跳转页码：</span>
+                            <sl-button kwc:external size="small" class="btn-page-1">第1页</sl-button>
+                            <sl-button kwc:external size="small" class="btn-page-5">第5页</sl-button>
+                            <sl-button kwc:external size="small" class="btn-page-10">第10页</sl-button>
+                        </div>
+                        <div class="controlRow">
+                            <span>每页条数：</span>
+                            <sl-button kwc:external size="small" class="btn-size-10">10条</sl-button>
+                            <sl-button kwc:external size="small" class="btn-size-20">20条</sl-button>
+                            <sl-button kwc:external size="small" class="btn-size-50">50条</sl-button>
+                        </div>
+                        <div class="controlRow">
+                            <span>总条数：</span>
+                            <sl-button kwc:external size="small" class="btn-total-100">100条</sl-button>
+                            <sl-button kwc:external size="small" class="btn-total-500">500条</sl-button>
+                            <sl-button kwc:external size="small" class="btn-total-2000">2000条</sl-button>
+                        </div>
+                        <div class="controlRow">
+                            <sl-button kwc:external size="small" variant="warning" class="btn-reset">
+                                重置全部
+                            </sl-button>
+                        </div>
+                    </div>
+                    <sl-pagination
+                        kwc:external
+                        class="pagination-dynamic"
+                        total="500"
+                    ></sl-pagination>
+                </div>
+            </section>
+
+            <!-- 案例 11: 自定义样式 -->
+            <section class="section case11">
+                <h2>案例 11: 自定义样式</h2>
+                <p class="desc">通过 CSS 自定义属性调整分页器外观</p>
+                <div class="demoBox">
+                    <div class="demoGroup">
+                        <div class="demoLabel">自定义颜色和大小</div>
+                        <sl-pagination
+                            kwc:external
+                            total="500"
+                            class="customPagination"
+                        ></sl-pagination>
+                    </div>
+                    <div class="demoGroup">
+                        <div class="demoLabel">加宽输入框</div>
+                        <sl-pagination
+                            kwc:external
+                            total="500"
+                            class="widePagination"
+                        ></sl-pagination>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+</template>

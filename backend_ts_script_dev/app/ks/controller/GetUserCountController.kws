@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Controller>
+    <name>GetUserCountController</name>
+    <isv>kdtest</isv>
+    <app>kdtest_kwc_wenq</app>
+    <version>4</version>
+    <url>/kdtest/kdtest_kwc_wenq/userCount</url>
+    <scriptFile>GetUserCountController.ts</scriptFile>
+    <methods>
+        <method>
+            <name>getUserCount</name>
+            <url>/count</url>
+            <httpMethod>GET</httpMethod>
+            <permission>
+                <permission>
+                    <permitAll>true</permitAll>
+                </permission>
+            </permission>
+        </method>
+        <method>
+            <name>getUserCountByOrg</name>
+            <url>/countByOrg</url>
+            <httpMethod>GET</httpMethod>
+            <permission>
+                <permission>
+                    <permitAll>true</permitAll>
+                </permission>
+            </permission>
+        </method>
+    </methods>
+</Controller>

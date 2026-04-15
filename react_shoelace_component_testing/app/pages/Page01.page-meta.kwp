@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <Page>
-    <name>Page01</name>
+    <name>kdtest_Page01</name>
     <masterLabel>Page01</masterLabel>
     <template>oneregion</template>
     <isv>kdtest</isv>

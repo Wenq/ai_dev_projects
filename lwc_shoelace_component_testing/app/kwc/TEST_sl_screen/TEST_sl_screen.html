@@ -1,0 +1,229 @@
+<template>
+    <div class="page-wrapper">
+        <!-- 侧边书签导航 -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <sl-icon kwc:external name="display" class="sidebar-icon"></sl-icon>
+                <span>大屏案例导航</span>
+            </div>
+            <nav class="bookmark-nav">
+                <template for:each={bookmarks} for:item="bookmark">
+                    <button 
+                        key={bookmark.id}
+                        class={bookmark.itemClass}
+                        data-section-id={bookmark.id}
+                        onclick={handleBookmarkClick}
+                    >
+                        <sl-icon kwc:external name={bookmark.icon}></sl-icon>
+                        <span>{bookmark.label}</span>
+                    </button>
+                </template>
+            </nav>
+        </aside>
+
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <h1 class="title">Shoelace Screen 大屏组件示例</h1>
+
+            <!-- 案例 1: 基础用法 -->
+            <section class="section case1">
+                <h2>案例 1: 基础用法</h2>
+                <p class="desc">
+                    最简单的大屏组件使用方式，展示基本的网格布局。元素可拖拽调整位置和大小。
+                </p>
+                <div class="screen-container">
+                    <sl-screen kwc:external class="screen screen-basic"></sl-screen>
+                </div>
+            </section>
+
+            <!-- 案例 2: 静态大屏展示 -->
+            <section class="section case2">
+                <h2>案例 2: 静态大屏展示 (Static Mode)</h2>
+                <p class="desc">
+                    使用 <code>static</code> 属性创建静态网格，元素不可拖拽和调整大小，适用于纯展示场景。
+                </p>
+                <div class="screen-container">
+                    <sl-screen kwc:external class="screen screen-static" static></sl-screen>
+                </div>
+            </section>
+
+            <!-- 案例 3: 可删除元素 -->
+            <section class="section case3">
+                <h2>案例 3: 可删除元素 (Removable)</h2>
+                <p class="desc">
+                    使用 <code>removable</code> 属性允许删除网格元素，每个元素右上角会显示删除按钮。
+                </p>
+                <div class="screen-container">
+                    <sl-screen kwc:external class="screen screen-removable" removable></sl-screen>
+                </div>
+            </section>
+
+            <!-- 案例 4: 自定义配置 -->
+            <section class="section case4">
+                <h2>案例 4: 自定义配置 (Custom Options)</h2>
+                <p class="desc">
+                    通过 <code>options</code> 属性自定义网格配置，如单元格高度、边距、列数等。
+                </p>
+                <div class="screen-container">
+                    <sl-screen kwc:external class="screen screen-custom"></sl-screen>
+                </div>
+            </section>
+
+            <!-- 案例 5: 嵌套内容展示 -->
+            <section class="section case5">
+                <h2>案例 5: 嵌套内容展示</h2>
+                <p class="desc">
+                    在大屏网格中嵌套其他 Shoelace 组件（Card、Badge、Button、ProgressBar 等）。
+                </p>
+                <div class="screen-container">
+                    <sl-screen kwc:external class="screen screen-nested" static></sl-screen>
+                </div>
+            </section>
+
+            <!-- 案例 6: 属性配置面板 -->
+            <section class="section full-width-section case6">
+                <h2>案例 6: 属性配置面板</h2>
+                <p class="desc">
+                    通过下方控制面板调整大屏的各项属性，实时预览效果
+                </p>
+
+                <!-- 控制面板 -->
+                <div class="control-panel">
+                    <h3>属性控制面板</h3>
+                    <div class="controls">
+                        <div class="control-item">
+                            <label>静态模式 (Static):</label>
+                            <sl-switch kwc:external class="switch-static" checked={isStatic}>
+                                {staticLabel}
+                            </sl-switch>
+                        </div>
+
+                        <div class="control-item">
+                            <label>可删除 (Removable):</label>
+                            <sl-switch kwc:external class="switch-removable" checked={isRemovable} disabled={removableSwitchDisabled}>
+                                {removableLabel}
+                            </sl-switch>
+                        </div>
+
+                        <div class="control-item">
+                            <label>{cellHeightLabel}</label>
+                            <sl-input kwc:external class="input-cell-height" type="number" value={cellHeight} min="40" max="200"></sl-input>
+                        </div>
+
+                        <div class="control-item">
+                            <label>{marginLabel}</label>
+                            <sl-input kwc:external class="input-margin" type="number" value={margin} min="0" max="50"></sl-input>
+                        </div>
+
+                        <div class="control-item">
+                            <label>{columnCountLabel}</label>
+                            <sl-radio-group kwc:external class="radio-column" value={columnCountStr}>
+                                <sl-radio kwc:external value="6">6 列</sl-radio>
+                                <sl-radio kwc:external value="12">12 列</sl-radio>
+                                <sl-radio kwc:external value="24">24 列</sl-radio>
+                            </sl-radio-group>
+                        </div>
+
+                        <div class="control-item">
+                            <label>操作:</label>
+                            <sl-button kwc:external variant="primary" size="small" onclick={handleGetGridData}>
+                                <sl-icon kwc:external slot="prefix" name="download"></sl-icon>
+                                获取网格数据
+                            </sl-button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 预览区域 -->
+                <div class="screen-container">
+                    <sl-screen kwc:external class="screen screen-config"></sl-screen>
+                </div>
+
+                <!-- 当前配置显示 -->
+                <div class="config-display">
+                    <h4>当前配置:</h4>
+                    <pre>{configDisplayJson}</pre>
+                </div>
+            </section>
+
+            <!-- 案例 7: 拖拽添加卡片 -->
+            <section class="section full-width-section case7">
+                <h2>案例 7: 拖拽添加卡片 (Drag to Add)</h2>
+                <p class="desc">
+                    从左侧组件列表拖拽不同类型的组件到大屏中，自动生成对应样式的卡片。
+                    支持多种组件类型，每种组件有不同的外观和尺寸。
+                </p>
+
+                <div class="drag-drop-container">
+                    <!-- 左侧组件列表 -->
+                    <div class="component-list">
+                        <h3>
+                            <sl-icon kwc:external name="box-seam"></sl-icon>
+                            组件库
+                        </h3>
+                        <p class="drag-hint">拖拽组件到右侧大屏区域</p>
+                        <div class="component-items">
+                            <template for:each={draggableComponents} for:item="comp">
+                                <div 
+                                    key={comp.id}
+                                    class="draggable-item"
+                                    draggable="true"
+                                    data-comp-id={comp.id}
+                                    ondragstart={handleDragStart}
+                                    style={comp.itemStyle}
+                                >
+                                    <div class="item-icon" style={comp.iconStyle}>
+                                        <sl-icon kwc:external name={comp.icon}></sl-icon>
+                                    </div>
+                                    <div class="item-info">
+                                        <span class="item-name">{comp.name}</span>
+                                        <span class="item-size">{comp.sizeLabel}</span>
+                                    </div>
+                                    <sl-icon kwc:external name="grip-vertical" class="drag-handle"></sl-icon>
+                                </div>
+                            </template>
+                        </div>
+                        <div class="list-actions">
+                            <sl-button kwc:external variant="danger" size="small" onclick={handleClearScreen}>
+                                <sl-icon kwc:external slot="prefix" name="trash"></sl-icon>
+                                清空大屏
+                            </sl-button>
+                        </div>
+                    </div>
+
+                    <!-- 右侧大屏区域 -->
+                    <div 
+                        class="drop-zone"
+                        ondrop={handleDrop}
+                        ondragover={handleDragOver}
+                    >
+                        <template if:true={showEmptyState}>
+                            <div class="drop-placeholder">
+                                <sl-icon kwc:external name="cloud-arrow-down"></sl-icon>
+                                <p>拖拽左侧组件到此处</p>
+                            </div>
+                        </template>
+                        <template if:true={hasDragData}>
+                            <sl-screen kwc:external class="screen screen-drag" removable></sl-screen>
+                        </template>
+                    </div>
+                </div>
+
+                <!-- 使用说明 -->
+                <div class="usage-note">
+                    <h4>
+                        <sl-icon kwc:external name="info-circle"></sl-icon>
+                        使用说明
+                    </h4>
+                    <ul>
+                        <li>从左侧组件库中选择需要的组件类型</li>
+                        <li>按住鼠标左键拖拽组件到右侧大屏区域</li>
+                        <li>松开鼠标后组件将自动添加到大屏中</li>
+                        <li>添加后的组件可以拖拽调整位置和大小</li>
+                        <li>点击组件右上角的删除按钮可移除组件</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+    </div>
+</template>

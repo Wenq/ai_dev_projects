@@ -1,0 +1,263 @@
+// 页面整体布局
+.pageWrapper {
+    display: flex;
+    min-height: 100%;
+    background-color: var(--sl-color-neutral-50);
+}
+
+// 侧边书签导航
+.sidebar {
+    width: 200px;
+    min-width: 200px;
+    background: linear-gradient(180deg, #2d3748 0%, #1a202c 100%);
+    color: #fff;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.sidebarHeader {
+    display: flex;
+    align-items: center;
+    gap: var(--sl-spacing-small);
+    padding: var(--sl-spacing-medium);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: var(--sl-font-size-medium);
+    font-weight: 600;
+
+    .sidebarIcon {
+        font-size: var(--sl-font-size-large);
+        color: #fbbf24;
+    }
+}
+
+.bookmarkNav {
+    padding: var(--sl-spacing-small) 0;
+}
+
+.bookmarkItem {
+    display: flex;
+    align-items: center;
+    gap: var(--sl-spacing-small);
+    width: 100%;
+    padding: var(--sl-spacing-small) var(--sl-spacing-medium);
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: var(--sl-font-size-small);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+    }
+
+    &.active {
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+    }
+}
+
+// 主内容区
+.mainContent {
+    flex: 1;
+    padding: var(--sl-spacing-x-large);
+    overflow-y: auto;
+}
+
+.title {
+    font-size: var(--sl-font-size-2x-large);
+    font-weight: 700;
+    color: var(--sl-color-neutral-900);
+    margin: 0 0 var(--sl-spacing-x-large) 0;
+    padding-bottom: var(--sl-spacing-medium);
+    border-bottom: 2px solid var(--sl-color-primary-500);
+}
+
+// 案例区块
+.section {
+    margin-bottom: var(--sl-spacing-2x-large);
+    background: var(--sl-color-neutral-0);
+    border-radius: var(--sl-border-radius-large);
+    padding: var(--sl-spacing-large);
+    box-shadow: var(--sl-shadow-small);
+
+    h2 {
+        font-size: var(--sl-font-size-large);
+        font-weight: 600;
+        color: var(--sl-color-neutral-800);
+        margin: 0 0 var(--sl-spacing-small) 0;
+    }
+}
+
+.desc {
+    font-size: var(--sl-font-size-small);
+    color: var(--sl-color-neutral-500);
+    margin: 0 0 var(--sl-spacing-medium) 0;
+}
+
+.demoBox {
+    padding: var(--sl-spacing-large);
+    background: var(--sl-color-neutral-50);
+    border-radius: var(--sl-border-radius-medium);
+    border: 1px dashed var(--sl-color-neutral-200);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sl-spacing-large);
+}
+
+// 演示分组
+.demoGroup {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sl-spacing-small);
+}
+
+.demoLabel {
+    font-size: var(--sl-font-size-small);
+    font-weight: 500;
+    color: var(--sl-color-neutral-600);
+    padding: var(--sl-spacing-2x-small) var(--sl-spacing-small);
+    background: var(--sl-color-neutral-100);
+    border-radius: var(--sl-border-radius-small);
+    display: inline-block;
+    width: fit-content;
+}
+
+// 状态栏
+.statusBar {
+    display: flex;
+    gap: var(--sl-spacing-large);
+    padding: var(--sl-spacing-small) var(--sl-spacing-medium);
+    background: var(--sl-color-primary-50);
+    border-radius: var(--sl-border-radius-medium);
+    font-size: var(--sl-font-size-small);
+    color: var(--sl-color-neutral-700);
+
+    strong {
+        color: var(--sl-color-primary-600);
+    }
+}
+
+// 事件日志
+.eventLog {
+    margin-top: var(--sl-spacing-small);
+    padding: var(--sl-spacing-medium);
+    background: var(--sl-color-neutral-100);
+    border-radius: var(--sl-border-radius-medium);
+
+    h4 {
+        margin: 0 0 var(--sl-spacing-small) 0;
+        font-size: var(--sl-font-size-small);
+        font-weight: 600;
+        color: var(--sl-color-neutral-700);
+    }
+}
+
+.logContent {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: var(--sl-spacing-small);
+    padding: var(--sl-spacing-small);
+    background: var(--sl-color-neutral-0);
+    border-radius: var(--sl-border-radius-small);
+    font-family: monospace;
+    font-size: var(--sl-font-size-small);
+}
+
+.noLog {
+    color: var(--sl-color-neutral-400);
+    margin: 0;
+    font-style: italic;
+}
+
+.logItem {
+    padding: var(--sl-spacing-2x-small) 0;
+    color: var(--sl-color-neutral-700);
+    border-bottom: 1px solid var(--sl-color-neutral-100);
+
+    &:last-child {
+        border-bottom: none;
+    }
+}
+
+// 控制面板
+.controlPanel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sl-spacing-small);
+    padding: var(--sl-spacing-medium);
+    background: var(--sl-color-neutral-100);
+    border-radius: var(--sl-border-radius-medium);
+}
+
+.controlRow {
+    display: flex;
+    align-items: center;
+    gap: var(--sl-spacing-small);
+    flex-wrap: wrap;
+
+    span {
+        font-size: var(--sl-font-size-small);
+        color: var(--sl-color-neutral-700);
+        min-width: 80px;
+    }
+}
+
+// 自定义样式
+.customPagination {
+    --sl-pagination-text-color: var(--sl-color-primary-700);
+    --sl-pagination-current-page-color: var(--sl-color-primary-600);
+    --sl-pagination-icon-font: var(--sl-color-primary-500);
+    --sl-pagination-icon-font-hover: var(--sl-color-primary-700);
+    --sl-pagination-font-size: var(--sl-font-size-medium);
+}
+
+.widePagination {
+    --sl-pagination-current-page-sizing-width: 5rem;
+    --sl-pagination-current-page-border-radius: var(--sl-border-radius-large);
+}
+
+// 响应式适配
+@media (max-width: 768px) {
+    .pageWrapper {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        min-width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    .bookmarkNav {
+        display: flex;
+        flex-wrap: wrap;
+        padding: var(--sl-spacing-small);
+        gap: var(--sl-spacing-x-small);
+    }
+
+    .bookmarkItem {
+        padding: var(--sl-spacing-x-small) var(--sl-spacing-small);
+        border-radius: var(--sl-border-radius-small);
+    }
+
+    .mainContent {
+        padding: var(--sl-spacing-medium);
+    }
+
+    .statusBar {
+        flex-direction: column;
+        gap: var(--sl-spacing-x-small);
+    }
+
+    .controlRow {
+        span {
+            min-width: 60px;
+        }
+    }
+}

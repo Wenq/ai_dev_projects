@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Page>
+    <name>kdtest_showFormPage</name>
+    <masterLabel>showForm 通信能力测试</masterLabel>
+    <template>oneregion</template>
+    <isv>kdtest</isv>
+    <app>kdtest_wenq</app>
+    <version>1</version>
+    <regions>
+        <region>
+            <name>region1</name>
+            <controls>
+                <control>
+                    <type>TEST_showForm</type>
+                    <name>showFormInstance</name>
+                </control>
+            </controls>
+        </region>
+    </regions>
+</Page>

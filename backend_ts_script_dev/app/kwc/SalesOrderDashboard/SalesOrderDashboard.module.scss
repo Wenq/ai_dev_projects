@@ -1,0 +1,140 @@
+/* ===== 容器 ===== */
+.container {
+  padding: var(--sl-spacing-large);
+  font-family: var(--sl-font-sans);
+  max-width: 960px;
+}
+
+/* ===== 顶部标题栏 ===== */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--sl-spacing-large);
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: var(--sl-spacing-small);
+  margin: 0;
+  font-size: var(--sl-font-size-x-large);
+  font-weight: var(--sl-font-weight-semibold);
+  color: var(--sl-color-neutral-900);
+}
+
+/* ===== 错误提示 ===== */
+.error {
+  margin: 0 0 var(--sl-spacing-medium) 0;
+  padding: var(--sl-spacing-small) var(--sl-spacing-medium);
+  font-size: var(--sl-font-size-small);
+  color: var(--sl-color-danger-700);
+  background-color: var(--sl-color-danger-50);
+  border-radius: var(--sl-border-radius-medium);
+}
+
+/* ===== 分区 ===== */
+.section {
+  margin-bottom: var(--sl-spacing-x-large);
+}
+
+.sectionTitle {
+  margin: 0 0 var(--sl-spacing-medium) 0;
+  font-size: var(--sl-font-size-large);
+  font-weight: var(--sl-font-weight-semibold);
+  color: var(--sl-color-neutral-800);
+}
+
+/* ===== 统计卡片网格 ===== */
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: var(--sl-spacing-medium);
+}
+
+.statCard {
+  --padding: var(--sl-spacing-medium);
+}
+
+.cardInner {
+  display: flex;
+  align-items: center;
+  gap: var(--sl-spacing-medium);
+}
+
+.cardIcon {
+  font-size: var(--sl-font-size-2x-large);
+  color: var(--sl-color-primary-600);
+  flex-shrink: 0;
+}
+
+.cardInfo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sl-spacing-2x-small);
+}
+
+.cardLabel {
+  font-size: var(--sl-font-size-small);
+  color: var(--sl-color-neutral-600);
+}
+
+.cardCount {
+  font-size: var(--sl-font-size-x-large);
+  font-weight: var(--sl-font-weight-bold);
+  color: var(--sl-color-neutral-900);
+}
+
+/* ===== 趋势柱状图 ===== */
+.chart {
+  background-color: var(--sl-color-neutral-50);
+  border: 1px solid var(--sl-color-neutral-200);
+  border-radius: var(--sl-border-radius-medium);
+  padding: var(--sl-spacing-large) var(--sl-spacing-medium) var(--sl-spacing-medium);
+}
+
+.chartLoading {
+  display: flex;
+  justify-content: center;
+  padding: var(--sl-spacing-2x-large);
+}
+
+.bars {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  height: 220px;
+  gap: var(--sl-spacing-small);
+}
+
+.barGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.barValue {
+  font-size: var(--sl-font-size-small);
+  font-weight: var(--sl-font-weight-semibold);
+  color: var(--sl-color-neutral-700);
+  margin-bottom: var(--sl-spacing-2x-small);
+}
+
+.bar {
+  width: 100%;
+  max-width: 48px;
+  min-height: 4px;
+  background-color: var(--sl-color-primary-500);
+  border-radius: var(--sl-border-radius-small) var(--sl-border-radius-small) 0 0;
+  transition: height 0.3s ease;
+}
+
+.barLabel {
+  margin-top: var(--sl-spacing-x-small);
+  font-size: var(--sl-font-size-2x-small);
+  color: var(--sl-color-neutral-600);
+  white-space: nowrap;
+}

@@ -590,7 +590,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // 在DOMContentLoaded回调中添加
   const dropdownBtn = document.getElementById('openTestEnv');
-  const dropdownMenu = document.querySelector('.dropdown-menu');
+  const dropdownMenu = dropdownBtn.nextElementSibling;
 
   // 生成下拉项
   Object.entries(ENVIRONMENTS).forEach(([key, env]) => {
@@ -607,61 +607,55 @@ document.addEventListener('DOMContentLoaded', function () {
     dropdownMenu.appendChild(li);
   });
 
-  // 切换下拉菜单
-  dropdownBtn.addEventListener('click', () => {
-    document.querySelector('.dropdown').classList.toggle('active');
-  });
+    // 在DOMContentLoaded回调中添加 mountTestEnv 的下拉项
+  const mountBtn = document.getElementById('mountTestEnv');
+  const mountMenu = mountBtn.nextElementSibling;
 
-  // 点击外部关闭
-  document.addEventListener('click', (e) => {
-    if (!e.target.closest('.dropdown')) {
-      document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('active'));
-    }
-  });
-
-  //DOMContentLoaded结束
-});
-
-// 在DOMContentLoaded回调中添加
-const mountBtn = document.getElementById('mountTestEnv');
-const mountMenu = mountBtn.nextElementSibling;
-
-// 生成下拉项
-Object.entries(ENVIRONMENTS).forEach(([key, env]) => {
-  const li = document.createElement('li');
-  li.textContent = env.des;
-  li.addEventListener('click', () => {
-    chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-      try {
-        const currentUrl = new URL(tabs[0].url);
-        currentUrl.searchParams.set(CDN_PARAM, env.address);  // 使用CDN常量
-        chrome.tabs.create({
-          url: currentUrl.href,
-          index: tabs[0].index + 1
-        });
-      } catch (e) {
-        console.error('URL处理失败:', e);
-      }
+  // 生成下拉项
+  Object.entries(ENVIRONMENTS).forEach(([key, env]) => {
+    const li = document.createElement('li');
+    li.textContent = env.des;
+    li.addEventListener('click', () => {
+      chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+        try {
+          const currentUrl = new URL(tabs[0].url);
+          currentUrl.searchParams.set(CDN_PARAM, env.address);  // 使用CDN常量
+          chrome.tabs.create({
+            url: currentUrl.href,
+            index: tabs[0].index + 1
+          });
+        } catch (e) {
+          console.error('URL处理失败:', e);
+        }
+      });
     });
+    mountMenu.appendChild(li);
   });
-  mountMenu.appendChild(li);
+
+  // 初始化所有下拉按钮（在动态生成下拉项之后）
+  initAllDropdowns();
+
+//DOMContentLoaded结束
 });
 
-// 切换下拉菜单（复用原有逻辑）
-mountBtn.addEventListener('click', (e) => {
-  // 移除 e.stopPropagation() 以允许事件冒泡
-  document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('active'));
-  mountBtn.parentElement.classList.add('active');
-});
 
-// 添加下拉面板控制逻辑（同时处理两个按钮）
+
+// 添加下拉面板控制逻辑（同时处理所有下拉按钮）
 function setupDropdown(buttonId) {
   const btn = document.getElementById(buttonId);
   const menu = btn.nextElementSibling;
 
   btn.addEventListener('click', (e) => {
     e.stopPropagation();
-    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    const isCurrentlyOpen = menu.style.display === 'block';
+    
+    // 关闭所有下拉菜单
+    document.querySelectorAll('.dropdown-menu').forEach(m => m.style.display = 'none');
+    
+    // 如果当前菜单未打开，则打开它
+    if (!isCurrentlyOpen) {
+      menu.style.display = 'block';
+    }
   });
 
   // 点击其他区域关闭面板
@@ -672,13 +666,13 @@ function setupDropdown(buttonId) {
   });
 }
 
-// 初始化两个下拉按钮
-document.addEventListener('DOMContentLoaded', () => {
+// 初始化所有下拉按钮
+function initAllDropdowns() {
   setupDropdown('openTestEnv');
-  setupDropdown('mountTestEnv');  // 新增这行代码
+  setupDropdown('mountTestEnv');
   setupDropdown('docArchiveBtn');
   setupDropdown('otherMenu');
-});
+}
 
 // 在文件顶部添加提示条函数
 function showToast(message, duration = 2000) {

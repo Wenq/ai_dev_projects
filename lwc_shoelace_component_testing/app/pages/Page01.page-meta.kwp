@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Page>
+    <name>Page01</name>
+    <masterLabel>Page01</masterLabel>
+    <template>oneregion</template>
+    <isv>kdtest</isv>
+    <app>kdtest_wenq</app>
+    <version>1</version>
+    <regions>
+        <region>
+            <name>region1</name>
+            <controls>
+              <!-- <control>
+                    <type>controlAp</type>
+                    <name>controlKey</name>
+                    <label>组件名称</label>
+                    <propertys>
+                        <property>
+                            <name>StringValue</name>
+                            <value>hello world</value>
+                        </property>
+                    </propertys>
+                </control> -->
+            </controls>
+        </region>
+    </regions>
+</Page>
