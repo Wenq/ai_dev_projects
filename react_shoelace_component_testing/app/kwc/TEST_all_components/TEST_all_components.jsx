@@ -24,7 +24,7 @@ const menuData = [
             { key: 'screen', label: '大屏组件', component: TEST_sl_screen },
             { key: 'dialog', label: 'Dialog 对话框', component: TEST_sl_dialog },
             { key: 'pagination', label: 'Pagination 分页器', component: TEST_sl_pagination },
-            { key: 'lookupF7', label: 'LookupF7 F7选择器', link: '#/lookupF7', command: 'kd debug -e sit -f kdtest_lookupF7Page' }
+            { key: 'lookupF7', label: 'LookupF7 F7选择器', formId: 'kdtest_lookupF7Page' }
         ]
     },
     {
@@ -74,6 +74,13 @@ export default function TEST_all_components(config) {
     // 处理二级菜单点击
     const handleSubMenuClick = (child, e) => {
         e.stopPropagation();
+        // 如果有 formId 属性，新开页签访问对应页面
+        if (child.formId) {
+            const url = new URL(window.location.href);
+            url.searchParams.set('formId', child.formId);
+            window.open(url.toString(), '_blank');
+            return;
+        }
         // 如果有 link 属性，打开独立页面
         if (child.link) {
             window.open(child.link, '_blank');
@@ -160,10 +167,13 @@ export default function TEST_all_components(config) {
                                                 {child.command && (
                                                     <SlIcon name="terminal" className={styles.externalIcon} />
                                                 )}
+                                                {child.formId && (
+                                                    <SlIcon name="box-arrow-up-right" className={styles.externalIcon} />
+                                                )}
                                                 {child.link && (
                                                     <SlIcon name="box-arrow-up-right" className={styles.externalIcon} />
                                                 )}
-                                                {!child.component && !child.link && !child.command && (
+                                                {!child.component && !child.link && !child.command && !child.formId && (
                                                     <span className={styles.comingSoon}>开发中</span>
                                                 )}
                                             </div>

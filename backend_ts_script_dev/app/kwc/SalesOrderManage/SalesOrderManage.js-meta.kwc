@@ -2,11 +2,11 @@
 <KingdeeComponentBundle
     xmlns="http://dev.kingdee.com/2025/10/metadata"
 >
-    <version>2</version>
-    <name>TEST_all_components</name>
-    <masterLabel>TEST_all_components</masterLabel>
+    <version>1</version>
+    <name>SalesOrderManage</name>
+    <masterLabel>SalesOrderManage</masterLabel>
     <isv>kdtest</isv>
-    <app>kdtest_wenq</app>
+    <app>kdtest_kwc_wenq</app>
     <framework>react</framework>
     <targets>
         <target>KWCFormModel</target>

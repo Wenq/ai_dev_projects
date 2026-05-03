@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <Page>
     <name>kdtest_Page01</name>
     <masterLabel>Page01</masterLabel>
     <template>oneregion</template>
     <isv>kdtest</isv>
-    <app>kdtest_wenq</app>
-    <version>1</version>
+    <app>kdtest_kwc_wenq</app>
+    <version>2</version>
     <regions>
         <region>
             <name>region1</name>

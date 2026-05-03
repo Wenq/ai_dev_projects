@@ -1,5 +1,26 @@
 # KWC React Web Component Template (JavaScript Version)
 
+## 组件与页面功能验证场景
+
+| 组件 | 页面 | 功能场景 |
+|------|------|----------|
+| **ExampleComponent** | — | 基础示例组件：演示 React 状态管理、Shoelace UI 集成、表单输入与提交、苍穹上下文数据监听与表单操作（showForm / close）。 |
+| **GetUserCountCtrl** | `GetUserCountPage` | 人员数量查询：调用后端 `GetUserCountController` 接口，查询系统中启用状态的人员总数，验证 KWC 前后端通信（adapterApi.doGet）、加载状态、错误处理与重试机制。 |
+| **SalesOrderDashboard** | `SalesOrderDashboardPage` | 销售订单仪表盘：调用后端 `SalesOrderDashboardController` 接口，展示单据按状态（暂存/已提交/已审核/已关闭）分类统计、总单数、最近12个月趋势图表，验证多 adapter 并行请求与数据聚合展示。 |
+| **SalesOrderManage** | `SalesOrderManagePage` | 销售订单 CRUD 管理：调用后端 `SalesOrderManageController` 接口，完整验证新增、编辑、删除、列表查询（模糊搜索 + 分页）。覆盖多种字段类型（文本/数值/日期/状态），表单含必录标识、分区布局、系统信息只读展示。使用 SlTable 组件。 |
+| **ServerCommTest** | `ServerCommTestPage` | HTTP 通信测试工具：支持自定义 URL、HTTP 方法（GET/POST/PUT/DELETE）、请求体编辑，实时展示响应内容、状态码、响应时间，用于调试和验证服务端接口连通性。 |
+| — | `GetUserCountPage1` | 页面属性传递示例：演示通过 `.page-meta.kwp` 向组件传递属性配置（StringValue="hello world"），验证元数据驱动的属性注入机制。 |
+
+### 后端控制器
+
+| 控制器 | 基础 URL | 接口 | 说明 |
+|--------|----------|------|------|
+| **GetUserCountController** | `/kdtest/kdtest_kwc_wenq/userCount` | `GET /count`, `GET /countByOrg` | 查询 `bos_user` / `bd_person` 表的启用人员数量，支持按组织过滤 |
+| **SalesOrderDashboardController** | `/kdtest/kdtest_kwc_wenq/salesDashboard` | `GET /statusSummary`, `GET /salesTrend` | 费用申请单按状态汇总统计、近12个月趋势 |
+| **SalesOrderManageController** | `/kdtest/kdtest_kwc_wenq/salesOrderManage` | `GET /query`, `POST /create`, `POST /update`, `POST /delete` | 销售订单（`kdtest_wenq_xsdd01` 实体）完整 CRUD 操作 |
+
+---
+
 This template project is configured to build React components as standard Web Components (KWC - Kingdee Web Component).
 
 > **Note**: This project is also used to validate backend TypeScript script development, i.e., writing controllers using TypeScript plugin scripts.

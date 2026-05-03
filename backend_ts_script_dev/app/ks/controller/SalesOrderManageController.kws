@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Controller>
+    <name>SalesOrderManageController</name>
+    <isv>kdtest</isv>
+    <app>kdtest_kwc_wenq</app>
+    <version>8</version>
+    <url>/kdtest/kdtest_kwc_wenq/salesOrderManage</url>
+    <scriptFile>SalesOrderManageController.ts</scriptFile>
+    <methods>
+        <!-- 查询销售订单列表 -->
+        <method>
+            <name>query</name>
+            <url>/query</url>
+            <httpMethod>GET</httpMethod>
+            <permission>
+                <permission>
+                    <permitAll>true</permitAll>
+                </permission>
+            </permission>
+        </method>
+        <!-- 新增销售订单 -->
+        <method>
+            <name>create</name>
+            <url>/create</url>
+            <httpMethod>POST</httpMethod>
+            <permission>
+                <permission>
+                    <permitAll>true</permitAll>
+                </permission>
+            </permission>
+        </method>
+        <!-- 修改销售订单 -->
+        <method>
+            <name>update</name>
+            <url>/update</url>
+            <httpMethod>POST</httpMethod>
+            <permission>
+                <permission>
+                    <permitAll>true</permitAll>
+                </permission>
+            </permission>
+        </method>
+        <!-- 删除销售订单 -->
+        <method>
+            <name>remove</name>
+            <url>/delete</url>
+            <httpMethod>POST</httpMethod>
+            <permission>
+                <permission>
+                    <permitAll>true</permitAll>
+                </permission>
+            </permission>
+        </method>
+    </methods>
+</Controller>
